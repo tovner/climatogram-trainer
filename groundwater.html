@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Интерактивный симулятор подземных вод: грунтовые воды с дождём и артезианская скважина.">
+<title>Симулятор подземных вод · География.Яма</title>
+<style>
+:root{--ink:#142a3d;--muted:#60758a;--blue:#1667c7;--aqua:#25a8d9;--deep:#102b44;--deep-2:#164665;--line:#cfdeeb;--card:#fff;--shadow:0 22px 60px rgba(20,55,83,.16)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 12% 5%,#fff 0 13%,transparent 35%),linear-gradient(135deg,#f5f9fc,#e5eff8);color:var(--ink);font:17px/1.5 Arial,sans-serif}button,a{font:inherit}button{cursor:pointer}
+.topbar{height:68px;padding:0 max(24px,calc((100vw - 1380px)/2));display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.brand{color:var(--ink);font-weight:900;text-decoration:none;font-size:20px}.brand span{color:var(--blue)}.back{color:var(--muted);text-decoration:none;font-weight:700}.back:hover{color:var(--blue)}
+.page{max-width:1380px;margin:0 auto;padding:30px 24px 64px}
+.intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}.eyebrow{color:var(--blue);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.13em}
+.intro h1{font-size:clamp(38px,5vw,66px);line-height:1.01;letter-spacing:-.045em;margin:7px 0 0}.hint{max-width:560px;color:#4c657b;margin:0 0 7px;font-size:18px;line-height:1.55}
+.stage-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stage-tab{min-height:66px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.82);color:#234b66;font-weight:850;padding:10px 14px;box-shadow:0 6px 18px rgba(30,65,92,.07);transition:transform .2s,box-shadow .2s,background .2s}
+.stage-tab:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,65,92,.12)}.stage-tab small{display:block;margin-top:2px;font-size:13px;opacity:.78}
+.stage-tab[aria-pressed=true]{background:linear-gradient(135deg,#155b85,#123c5b);color:#fff;border-color:#174f75;box-shadow:0 12px 28px rgba(16,58,88,.22)}
+.simulator{background:linear-gradient(145deg,var(--deep),var(--deep-2));border:1px solid rgba(255,255,255,.15);border-radius:26px;padding:20px;box-shadow:var(--shadow);color:#fff}
+.stage{position:relative;overflow:hidden;border-radius:19px;background:linear-gradient(#d9edf7 0 130px,#eee3c5 130px 100%);min-height:480px;border:1px solid rgba(255,255,255,.52);box-shadow:inset 0 0 0 1px rgba(16,43,68,.07),0 12px 30px rgba(5,28,47,.2)}
+.stage svg{display:block;width:100%;height:auto;font-family:Arial,sans-serif;text-rendering:geometricPrecision}
+.stage svg text{letter-spacing:.01em}
+.stage svg text[font-size="11"]{font-size:15px}.stage svg text[font-size="12"]{font-size:15px}.stage svg text[font-size="13"]{font-size:16px}.stage svg text[font-size="14"]{font-size:17px}.stage svg text[font-size="15"]{font-size:17px}.stage svg text[font-size="17"]{font-size:19px}.stage svg text[font-size="19"]{font-size:21px}
+.stage svg text[style*="paint-order"]{stroke:#fff!important;stroke-width:.75!important;stroke-linejoin:round;paint-order:stroke fill!important}
+.stage svg text[fill="#fff"]{stroke:#4b321e!important;stroke-width:.75!important;paint-order:stroke fill!important}
+.stage svg .layer-label{font-size:22px!important;font-weight:900;letter-spacing:.015em}
+.stage svg .diagram-label{font-size:22px!important;font-weight:900;letter-spacing:.01em}
+.stage svg .diagram-label.long{font-size:19px!important}
+.stage svg .diagram-title{font-size:22px!important;font-weight:900;letter-spacing:.02em}
+.controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:18px 4px 4px}
+.control{min-height:48px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;border-radius:12px;padding:11px 20px;font-weight:800;transition:background .2s,transform .2s}
+.control:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}.control.primary{background:linear-gradient(135deg,#2f96e6,#1674c8);border-color:#4aa8ed;box-shadow:0 8px 22px rgba(22,116,200,.28)}
+.control:disabled{opacity:.45}
+.slider-wrap{display:flex;align-items:center;gap:12px;color:#102b44;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:10px 14px;font-size:16px;font-weight:800;box-shadow:0 7px 20px rgba(4,27,45,.12)}.slider-wrap span{min-width:42px;color:#155f94;font-variant-numeric:tabular-nums}
+.slider-wrap input{width:230px;accent-color:#1674c8}.slider-wrap input:disabled{opacity:.55}
+.readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.readout{background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.45);border-radius:14px;padding:12px 15px;box-shadow:0 7px 20px rgba(4,27,45,.12)}
+.readout span{display:block;font-size:14px;color:#536b7e;font-weight:750}.readout strong{display:block;margin-top:2px;font-size:22px;color:#102b44;font-variant-numeric:tabular-nums}
+.statusline{margin-top:12px;background:rgba(255,255,255,.96);color:var(--ink);border-radius:14px;padding:14px 16px;font-size:16px;font-weight:650;height:90px;display:flex;align-items:center;overflow-wrap:anywhere;border-left:5px solid #35a9e3}
+.legend{display:flex;flex-wrap:wrap;gap:12px 22px;font-size:15px;font-weight:750;color:#f0f7fd;padding:14px 5px 1px}
+.sw{display:inline-block;width:26px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle;border:1px solid rgba(255,255,255,.5)}
+.explanation{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:19px;padding:24px;box-shadow:0 12px 34px rgba(31,67,96,.08)}
+.card h2{margin:0 0 12px;font-size:24px}.card p{margin:8px 0;color:#274b65}.card .note{font-size:15px;color:var(--muted)}
+.steps{display:grid;gap:10px}.step{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.step > b{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#e3eef7;color:#174f75}
+.flow{stroke-dasharray:10 8;animation:dash 1.8s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-36}}
+@media(prefers-reduced-motion:reduce){.flow{animation:none}}
+button:focus-visible,a:focus-visible{outline:3px solid #73b8ff;outline-offset:3px}
+@media(min-width:1280px){.intro{margin-bottom:22px}.stage-tab{font-size:18px}.explanation{grid-template-columns:1.15fr .85fr}}
+@media(max-width:860px){body{font-size:16px}.topbar{height:58px}.page{padding:20px 10px 42px}.intro{display:block}.hint{margin-top:10px;font-size:16px}.stage-tabs{grid-template-columns:1fr}.explanation{grid-template-columns:1fr}.readouts{grid-template-columns:1fr 1fr}.simulator{padding:9px;border-radius:18px}.stage{overflow-x:auto}.stage svg{min-width:900px}.slider-wrap{width:100%;flex-wrap:wrap}.slider-wrap input{flex:1;min-width:190px}.statusline{height:112px}}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html">География<span>.Яма</span></a><a class="back" href="index.html">← Все тренажёры</a></header>
+<main class="page">
+<section class="intro"><div><div class="eyebrow">Интерактивная модель</div><h1>Подземные<br>воды</h1></div><p class="hint">Включайте дождь и меняйте его силу: смотрите, как наполняется колодец и как растёт напор скважины. Во втором разделе — устройство артезианского бассейна.</p></section>
+
+<nav class="stage-tabs" aria-label="Разделы симулятора">
+<button class="stage-tab" id="t1" aria-pressed="true">1. Грунтовые воды<br><small>дождь · колодец · скважина</small></button>
+<button class="stage-tab" id="t2" aria-pressed="false">2. Артезианская скважина<br><small>анимированная схема</small></button>
+<button class="stage-tab" id="t3" aria-pressed="false">3. Родник<br><small>каптаж на склоне</small></button>
+</nav>
+
+<section class="simulator" aria-label="Симулятор подземных вод">
+<!-- VIEW 1 -->
+<div class="stage" id="view1">
+<svg viewBox="0 0 1000 600" role="img" aria-labelledby="v1t v1d">
+<title id="v1t">Грунтовые воды: дождь, колодец и скважина</title>
+<desc id="v1d">Разрез почвы: песок пропускает воду, глина нет. Дождь поднимает уровень грунтовых вод: колодец наполняется, скважина бьёт сильнее.</desc>
+<defs>
+<pattern id="sand" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="6" cy="7" r="1.6" fill="#b89b5e"/><circle cx="18" cy="17" r="1.6" fill="#b89b5e"/><circle cx="12" cy="22" r="1.2" fill="#a68a4f"/></pattern>
+<pattern id="clay" width="30" height="14" patternUnits="userSpaceOnUse"><path d="M0 7 H30" stroke="#7a5b3d" stroke-width="1.4" opacity=".6"/></pattern>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe0f2"/><stop offset="1" stop-color="#dcedf7"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="1000" height="130" fill="url(#sky)"/>
+<!-- rain drops -->
+<g id="drops" stroke="#2f7fb8" stroke-width="3" stroke-linecap="round" opacity="0"></g>
+<!-- surface -->
+<rect x="0" y="126" width="1000" height="10" fill="#6da24f"/>
+<rect x="0" y="136" width="1000" height="8" fill="#5a8a41"/>
+<!-- sand layer (unsaturated top shown via overlay, saturated below) -->
+<rect x="0" y="144" width="1000" height="186" fill="#e6d194"/>
+<rect x="0" y="144" width="1000" height="186" fill="url(#sand)"/>
+<rect id="gwBody" x="0" y="315" width="1000" height="15" fill="#4ea7e8" opacity=".85"/>
+<line id="gwLine" x1="0" y1="315" x2="1000" y2="315" stroke="#155a9e" stroke-width="3"/>
+<text class="layer-label" x="290" y="175" font-size="14" font-weight="bold" fill="#5b431c" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">песок — водопроницаемый слой</text>
+<!-- clay aquiclude -->
+<rect x="0" y="330" width="1000" height="42" fill="#a9835b"/>
+<rect x="0" y="330" width="1000" height="42" fill="url(#clay)"/>
+<text class="layer-label" x="14" y="359" font-size="14" font-weight="bold" fill="#fff" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">глина — водоупор</text>
+<rect x="440" y="328" width="55" height="46" fill="#e6d194"/>
+<rect x="440" y="328" width="55" height="46" fill="url(#sand)"/>
+<rect x="440" y="328" width="55" height="46" fill="none" stroke="#6b5426" stroke-width="2" stroke-dasharray="6 4"/>
+<path id="gapflow" class="flow" d="M467 292 L467 372" stroke="#155a9e" stroke-width="3.5" fill="none"/>
+<!-- confined aquifer -->
+<rect x="0" y="372" width="1000" height="80" fill="#d9c98f"/>
+<rect id="confBody" x="0" y="372" width="1000" height="80" fill="#4ea7e8" opacity=".35"/>
+<text class="layer-label" x="14" y="418" font-size="14" font-weight="bold" fill="#0b4a6e" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">водоносный известняк (напорный)</text>
+<!-- bottom clay -->
+<rect x="0" y="452" width="1000" height="148" fill="#8f6f47"/>
+<rect x="0" y="452" width="1000" height="148" fill="url(#clay)"/>
+<text class="layer-label" x="14" y="484" font-size="14" font-weight="bold" fill="#fff" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">глина — нижний водоупор</text>
+<!-- infiltration dots -->
+<g id="infil" fill="#2f7fb8" opacity="0"></g>
+<!-- WELL (left) -->
+<g>
+<rect x="196" y="136" width="52" height="196" fill="#102b44" opacity=".15"/>
+<rect x="200" y="136" width="8" height="196" fill="#8a6a42"/><rect x="236" y="136" width="8" height="196" fill="#8a6a42"/>
+<rect id="wellWater" x="208" y="315" width="28" height="15" fill="#2f8de0"/>
+<text x="226" y="112" text-anchor="middle" font-size="19" font-weight="bold" fill="#102b44">КОЛОДЕЦ</text>
+<text id="wellLabel" x="226" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4a6e" display="none">10%</text>
+</g>
+<!-- BOREHOLE (right) -->
+<g>
+<rect x="748" y="150" width="24" height="290" fill="#5a6b78"/>
+<rect x="753" y="150" width="14" height="290" fill="#39434d"/>
+<rect x="738" y="132" width="44" height="20" rx="4" fill="#314a5d"/>
+<text x="760" y="75" text-anchor="middle" font-size="19" font-weight="bold" fill="#102b44">СКВАЖИНА</text>
+<ellipse id="pool" cx="760" cy="150" rx="46" ry="10" fill="#4ea7e8" opacity=".5"/>
+<g id="fountain" fill="#4ea7e8">
+<rect id="fjet" x="751" y="125" width="18" height="25" rx="8" opacity=".9"/>
+<circle id="fd1" cx="760" cy="118" r="7" opacity=".9"/>
+<circle id="fd2" cx="748" cy="104" r="4.5" opacity=".7"/>
+<circle id="fd3" cx="772" cy="96" r="3.5" opacity=".6"/>
+</g>
+<text id="fLabel" x="830" y="120" font-size="14" font-weight="bold" fill="#0b4a6e">слабый излив</text>
+</g>
+<text x="500" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#274b65">нажми «Включить дождь» под схемой: осадки просачиваются через песок</text>
+</svg>
+<div class="controls">
+<button class="control primary" id="rainBtn" aria-pressed="false">Включить дождь</button>
+<label class="slider-wrap" for="rainPower">Сила дождя <input id="rainPower" type="range" min="10" max="100" value="60" disabled><span id="rainVal">60%</span></label>
+</div>
+<div class="readouts" aria-live="polite">
+<div class="readout"><span>Уровень грунтовых вод</span><strong id="rLevel">15,5 м</strong></div>
+<div class="readout"><span>Колодец наполнен</span><strong id="rWell">9%</strong></div>
+<div class="readout"><span>Излив скважины</span><strong id="rFlow">18 см</strong></div>
+<div class="readout"><span>Осадки</span><strong id="rRain">нет</strong></div>
+</div>
+<div class="statusline" id="s1line">Дождя нет. Песок сухой, колодец почти пуст, скважина едва сочится.</div>
+</div>
+
+<!-- VIEW 2 -->
+<div class="stage" id="view2" hidden style="background:linear-gradient(#cfe4f2 0 120px,#e8ddc0 120px 100%)">
+<svg viewBox="0 0 1000 560" role="img" aria-label="Артезианский бассейн">
+<defs><pattern id="sand2" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="6" cy="7" r="1.6" fill="#b89b5e"/><circle cx="18" cy="17" r="1.6" fill="#b89b5e"/></pattern><linearGradient id="sky2" x2="0" y2="1"><stop stop-color="#dff3fc"/><stop offset="1" stop-color="#b8dff1"/></linearGradient></defs>
+<rect x="0" y="0" width="1000" height="120" fill="url(#sky2)"/>
+<g transform="translate(102 24)" fill="none" stroke="#277db4" stroke-width="4" stroke-linecap="round"><path d="M8 27h66c13 0 19-17 9-25-6-5-15-5-21-1C58-12 38-14 31 0 19-6 5 3 6 15 0 17-2 27 8 27Z" fill="#fff" stroke="#8fb8d1"/><path d="M23 41l-7 12m31-12-7 12m31-12-7 12"/></g><g transform="translate(798 24)" fill="none" stroke="#277db4" stroke-width="4" stroke-linecap="round"><path d="M8 27h66c13 0 19-17 9-25-6-5-15-5-21-1C58-12 38-14 31 0 19-6 5 3 6 15 0 17-2 27 8 27Z" fill="#fff" stroke="#8fb8d1"/><path d="M23 41l-7 12m31-12-7 12m31-12-7 12"/></g>
+<text x="140" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4a6e">область питания</text>
+<text x="860" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b4a6e">область питания</text>
+<!-- surface: hills at edges, valley center -->
+<path id="surf" d="M0 170 Q140 120 260 190 Q400 260 500 262 Q600 260 740 190 Q860 120 1000 170 L1000 560 L0 560 Z" fill="#e6d194"/>
+<path d="M0 170 Q140 120 260 190 Q400 260 500 262 Q600 260 740 190 Q860 120 1000 170" fill="none" stroke="#5a8a41" stroke-width="8"/>
+<!-- thin interlayers: sand lens + clay lens -->
+<path d="M0 180 Q140 130 260 200 Q400 270 500 272 Q600 270 740 200 Q860 130 1000 180 L1000 190 Q860 140 740 210 Q600 280 500 282 Q400 280 260 210 Q140 140 0 190 Z" fill="#e0cd96"/>
+<path d="M0 194 Q140 144 260 214 Q400 284 500 286 Q600 284 740 214 Q860 144 1000 194 L1000 203 Q860 153 740 223 Q600 293 500 295 Q400 293 260 223 Q140 153 0 203 Z" fill="#a9835b"/>
+<!-- upper clay -->
+<path d="M0 205 Q140 155 260 225 Q400 295 500 297 Q600 295 740 225 Q860 155 1000 205 L1000 250 Q860 200 740 270 Q600 340 500 342 Q400 340 260 270 Q140 200 0 250 Z" fill="#a9835b"/>
+
+<!-- aquifer -->
+<path d="M0 250 Q140 200 260 270 Q400 340 500 342 Q600 340 740 270 Q860 200 1000 250 L1000 300 Q860 250 740 320 Q600 390 500 392 Q400 390 260 320 Q140 250 0 300 Z" fill="#4ea7e8" opacity=".55"/>
+<path d="M0 250 Q140 200 260 270 Q400 340 500 342 Q600 340 740 270 Q860 200 1000 250" fill="none" stroke="#155a9e" stroke-width="2" opacity=".6"/>
+
+<!-- lower clay -->
+<path d="M0 300 Q140 250 260 320 Q400 390 500 392 Q600 390 740 320 Q860 250 1000 300 L1000 560 L0 560 Z" fill="#8f6f47"/>
+<text class="layer-label" x="28" y="225" fill="#fff" style="paint-order:stroke" stroke="#ffffff">верхний водоупор</text>
+<text class="layer-label" x="710" y="350" text-anchor="middle" transform="rotate(-10 710 350)" fill="#0b4a6e" style="paint-order:stroke" stroke="#ffffff">напорный водоносный горизонт</text>
+<text class="layer-label" x="28" y="345" fill="#fff" style="paint-order:stroke" stroke="#ffffff">нижний водоупор</text>
+
+<!-- piezometric level -->
+<g font-size="14" font-weight="bold">
+<rect x="16" y="462" width="302" height="86" rx="10" fill="#ffffff" opacity=".9"/>
+<rect x="30" y="476" width="18" height="12" fill="#a9835b"/><text x="54" y="487" fill="#4a3419">верхний водоупор (глина)</text>
+<rect x="30" y="498" width="18" height="12" fill="#4ea7e8"/><text x="54" y="509" fill="#0b4a6e">напорный горизонт</text>
+<rect x="30" y="520" width="18" height="12" fill="#8f6f47"/><text x="54" y="531" fill="#3d2c14">нижний водоупор (глина)</text>
+</g>
+<line x1="120" y1="150" x2="880" y2="150" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="12 8"/>
+<text x="350" y="136" text-anchor="middle" font-size="13" font-weight="bold" fill="#a93226" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">пьезометрический уровень</text>
+<!-- well -->
+<rect x="488" y="262" width="24" height="140" fill="#5a6b78"/><rect x="493" y="262" width="14" height="140" fill="#39434d"/>
+<rect x="478" y="244" width="44" height="20" rx="4" fill="#314a5d"/>
+<text x="592" y="232" text-anchor="middle" font-size="17" font-weight="bold" fill="#102b44" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">СКВАЖИНА</text>
+<g id="f2" fill="#4ea7e8">
+<rect id="f2jet" x="491" y="150" width="18" height="94" rx="8" opacity=".9"/>
+<circle id="f2d1" cx="500" cy="142" r="8" opacity=".9"/>
+<circle id="f2d2" cx="486" cy="126" r="5" opacity=".7"/>
+<circle id="f2d3" cx="514" cy="118" r="4" opacity=".6"/>
+</g>
+<ellipse cx="500" cy="248" rx="52" ry="10" fill="#4ea7e8" opacity=".45"/>
+<g id="parts" fill="#dff1ff" stroke="#155a9e" stroke-width="1"></g>
+</svg>
+<div class="controls">
+<button class="control primary" id="valveBtn" aria-pressed="true">Закрыть кран</button>
+<button class="control" id="playBtn2" aria-pressed="true">⏸ Пауза</button>
+</div>
+<div class="statusline" id="s2line">Кран открыт: вода под напором поднимается выше поверхности — скважина фонтанирует.</div>
+</div>
+
+<!-- VIEW 3 -->
+<div class="stage" id="view3" hidden style="background:linear-gradient(#cfe4f2 0 120px,#e8ddc0 120px 100%)">
+<svg viewBox="0 0 1000 560" role="img" aria-label="Родник на склоне с каптажной трубой">
+<defs>
+<pattern id="sand3" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="6" cy="7" r="1.6" fill="#b89b5e"/><circle cx="18" cy="17" r="1.6" fill="#b89b5e"/></pattern>
+<pattern id="clay3" width="30" height="14" patternUnits="userSpaceOnUse"><path d="M0 7 H30" stroke="#7a5b3d" stroke-width="1.4" opacity=".6"/></pattern>
+</defs>
+<rect x="0" y="0" width="1000" height="120" fill="#bfe0f2"/>
+<g id="drops3" stroke="#2f7fb8" stroke-width="3" stroke-linecap="round" opacity="0"></g>
+<text class="diagram-title" x="30" y="34" font-size="15" font-weight="bold" fill="#274b65">дождь в области питания →</text>
+<path d="M0 300 Q200 260 360 300 Q520 340 660 396 L720 440 L1000 500 L1000 560 L0 560 Z" fill="#8f6f47"/>
+<path d="M0 226 Q200 186 360 226 Q520 292 648 322 L700 372 L1000 428 L1000 500 L720 440 L660 396 Q520 340 360 300 Q200 260 0 300 Z" fill="#a9835b"/>
+<path d="M0 190 Q200 150 360 190 Q520 230 648 322 Q520 292 360 226 Q200 186 0 226 Z" fill="#e0cd96"/>
+<path d="M0 190 Q200 150 360 190 Q520 230 648 322 Q520 292 360 226 Q200 186 0 226 Z" fill="url(#sand3)"/>
+<path d="M0 190 Q200 150 360 190 Q520 230 620 300 L672 348 L1000 388" fill="none" stroke="#5a8a41" stroke-width="8"/>
+<path id="wt3" class="flow" d="M0 208 Q200 168 360 208 Q520 248 640 316" stroke="#155a9e" stroke-width="3" fill="none"/>
+<rect x="595" y="292" width="63" height="18" rx="3" fill="#6b7a86"/>
+<rect x="595" y="295" width="63" height="12" fill="#39434d"/>
+<rect x="650" y="286" width="12" height="30" rx="3" fill="#314a5d"/>
+<path id="jet3" class="flow" d="M666 302 Q694 318 702 364" stroke="#4ea7e8" stroke-width="8" stroke-linecap="round" fill="none"/>
+<g id="pdrops3" fill="#4ea7e8"></g>
+<path id="stream3" class="flow" d="M700 372 Q820 382 1000 394" stroke="#4ea7e8" stroke-width="8" stroke-linecap="round" fill="none"/>
+<g font-size="13" font-weight="bold" style="paint-order:stroke" stroke="#fff" stroke-width="4">
+<text class="layer-label" x="30" y="200" fill="#5b431c">песок — водоносный слой</text>
+<text class="layer-label" x="30" y="267" fill="#fff">глина — водоупор</text>
+<text class="diagram-label" x="330" y="182" fill="#155a9e">зеркало грунтовых вод</text>
+<text class="diagram-label" x="626" y="274" text-anchor="middle" fill="#314a5d">каптаж (труба)</text>
+<text class="diagram-label long" x="700" y="282" fill="#0b4a6e"><tspan x="700">родник — нисходящий</tspan><tspan x="700" dy="20">источник</tspan></text>
+<text class="diagram-label" x="850" y="368" fill="#0b4a6e">ручей</text>
+</g>
+<line x1="706" y1="296" x2="668" y2="300" stroke="#5a6b7d" stroke-width="1.5"/>
+</svg>
+<div class="controls">
+<button class="control primary" id="rain3Btn" aria-pressed="false">Включить дождь</button>
+<button class="control" id="play3Btn" aria-pressed="true">⏸ Пауза</button>
+</div>
+<div class="statusline" id="s3line">Дождя нет. Родник питается запасом воды в склоне и течёт слабо.</div>
+</div>
+
+<div class="legend"><span><i class="sw" style="background:#e6d194"></i>водопроницаемые (песок, известняк)</span><span><i class="sw" style="background:#a9835b"></i>водонепроницаемые (глина — водоупор)</span><span><i class="sw" style="background:#4ea7e8"></i>вода</span></div>
+</section>
+
+<section class="explanation">
+<article class="card"><h2>Грунтовые и межпластовые воды</h2><div class="steps">
+<div class="step"><b>1</b><p><b>Грунтовые воды</b> — первый от поверхности водоносный горизонт на водоупоре. Питаются дождём: после осадков уровень поднимается, в засуху падает. Колодец копают до этого горизонта.</p></div>
+<div class="step"><b>2</b><p><b>Межпластовые воды</b> зажаты между двумя водоупорами. Дождь попадает в них только там, где пласт выходит на поверхность (область питания), поэтому напор меняется медленно.</p></div>
+<div class="step"><b>3</b><p><b>Артезианские воды</b> — напорные межпластовые: пьезометрический уровень выше кровли пласта. Если вскрыть пласт в низине, вода сама поднимается и фонтанирует.</p></div>
+<div class="step"><b>4</b><p><b>Родник</b> — естественный выход подземных вод там, где водоносный слой встречается со склоном. Такой нисходящий источник часто <b>каптируют</b>: вставляют горизонтальную трубу, и вода течёт самотёком в ручей.</p></div>
+</div></article>
+<aside class="card"><h2>Что исследовать</h2><p>Включи дождь и подвигай ползунок силы. Уровень воды меняется не сразу — породы долго пропитываются. Сравни: колодец откликается быстрее, а напор скважины держится дольше.</p><p>Во втором разделе закрой кран: фонтан остановится, но напор никуда не денется — вода снова забьёт при открытии.</p><p class="note">Учебная модель: масштабы слоёв и скорости упрощены.</p></aside>
+</section>
+</main>
+<script>
+/* tabs */
+const views={t1:'view1',t2:'view2',t3:'view3'};
+Object.keys(views).forEach(id=>{document.getElementById(id).onclick=()=>{
+Object.keys(views).forEach(k=>{document.getElementById(k).setAttribute('aria-pressed',k===id?'true':'false');document.getElementById(views[k]).hidden=k!==id;});};});
+
+/* ---------- VIEW 1 : groundwater + rain ---------- */
+const $=id=>document.getElementById(id);
+const dropsG=$('drops'), infilG=$('infil');
+const drops=[];for(let i=0;i<46;i++){const l=document.createElementNS('http://www.w3.org/2000/svg','line');const x=20+Math.random()*960;l.setAttribute('x1',x);l.setAttribute('x2',x-8);l.setAttribute('y1',44+Math.random()*76);l.setAttribute('y2',+l.getAttribute('y1')+16);dropsG.append(l);drops.push({el:l,sp:260+Math.random()*160,y:+l.getAttribute('y1')});}
+const infs=[];for(let i=0;i<22;i++){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');const x=20+Math.random()*960;c.setAttribute('cx',x);c.setAttribute('cy',150+Math.random()*160);c.setAttribute('r',3);infilG.append(c);infs.push({el:c,sp:18+Math.random()*22});}
+let rainOn=false, power=60, gw=0.12, pr=0.12, last1=performance.now();
+$('rainBtn').onclick=()=>{rainOn=!rainOn;$('rainBtn').textContent=rainOn?'Выключить дождь':'Включить дождь';$('rainBtn').setAttribute('aria-pressed',String(rainOn));$('rainPower').disabled=!rainOn;};
+$('rainPower').oninput=e=>{power=+e.target.value;$('rainVal').textContent=power+'%';};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function tick1(now){
+  const dt=Math.min((now-last1)/1000,.05);last1=now;
+  const p=power/100;
+  const gwT=rainOn?0.35+0.6*p:0.12, prT=rainOn?0.3+0.65*p:0.12;
+  gw+=(gwT-gw)*(1-Math.exp(-0.35*dt)); pr+=(prT-pr)*(1-Math.exp(-0.5*dt));
+  // water table geometry: sand 144..330
+  const wy=330-gw*150;
+  $('gwBody').setAttribute('y',wy);$('gwBody').setAttribute('height',330-wy);
+  $('gwLine').setAttribute('y1',wy);$('gwLine').setAttribute('y2',wy);
+  // well water 208..236 x, shaft 180..330
+  $('wellWater').setAttribute('y',wy);$('wellWater').setAttribute('height',Math.max(330-wy,0));
+  const pct=Math.round((330-wy)/170*100);
+  $('wellLabel').textContent=pct+'%';
+  // confined brightness by pressure
+  $('confBody').setAttribute('opacity',(.25+.6*pr).toFixed(2));
+  $('gapflow').setAttribute('opacity',rainOn?0.95:0.15);
+  // fountain: pipe top y=132, height 15..165
+  const h=10+pr*58;
+  $('fjet').setAttribute('y',132-h);$('fjet').setAttribute('height',h);
+  $('fd1').setAttribute('cy',126-h);$('fd2').setAttribute('cy',112-h);$('fd3').setAttribute('cy',104-h);
+  $('pool').setAttribute('rx',34+pr*26);
+  $('fLabel').textContent=pr<.25?'слабый излив':pr<.6?'умеренный излив':'сильный фонтан';
+  // rain visibility
+  dropsG.setAttribute('opacity',rainOn?(.35+.6*p):0);
+  infilG.setAttribute('opacity',rainOn?.85:0);
+  if(rainOn){for(const d of drops){d.y+=d.sp*(0.5+p)*dt;if(d.y>125){d.y=44;const x=20+Math.random()*960;d.el.setAttribute('x1',x);d.el.setAttribute('x2',x-8);}d.el.setAttribute('y1',d.y);d.el.setAttribute('y2',d.y+16);}for(const q of infs){let y=+q.el.getAttribute('cy')+q.sp*dt;if(y>325)y=150;q.el.setAttribute('cy',y);}}
+  // readouts
+  $('rLevel').textContent=((wy-160)/10).toFixed(1)+' м';
+  $('rWell').textContent=pct+'%';
+  $('rFlow').textContent=Math.round(8+pr*60)+' см';
+  $('rRain').textContent=rainOn?(power<40?'слабый':power<75?'умеренный':'сильный'):'нет';
+  $('s1line').textContent=!rainOn?'Дождя нет. Песок отдаёт запас: колодец почти пуст (~10%), скважина едва сочится.':`Идёт ${power<40?'слабый':power<75?'умеренный':'сильный'} дождь. Вода просачивается через песок: колодец наполняется (${pct}%), напор скважины растёт.`;
+  requestAnimationFrame(tick1);
+}
+requestAnimationFrame(tick1);
+
+/* ---------- VIEW 2 : artesian basin ---------- */
+const partsG=$('parts');
+const N=9, parts=[];
+for(let i=0;i<N;i++){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',5);partsG.append(c);parts.push(c);}
+const leftPts=[[140,205],[260,272],[380,338],[470,378],[492,384]];
+const rightPts=[[860,205],[740,272],[620,338],[530,378],[508,384]];
+const upPts=[[500,384],[500,262]];
+function along(pts,t){
+  let lens=[0];for(let i=1;i<pts.length;i++)lens.push(lens[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+  const total=lens[lens.length-1],d=t*total;
+  for(let i=1;i<pts.length;i++){if(d<=lens[i]){const k=(d-lens[i-1])/((lens[i]-lens[i-1])||1);return[pts[i-1][0]+(pts[i][0]-pts[i-1][0])*k,pts[i-1][1]+(pts[i][1]-pts[i-1][1])*k];}}
+  return pts[pts.length-1];
+}
+let valve=true, play2=true, last2=performance.now(), simT=0, f2h=94;
+$('valveBtn').onclick=()=>{valve=!valve;$('valveBtn').textContent=valve?'Закрыть кран':'Открыть кран';$('valveBtn').setAttribute('aria-pressed',String(valve));$('s2line').textContent=valve?'Кран открыт: вода под напором поднимается выше поверхности — скважина фонтанирует.':'Кран закрыт: фонтана нет, но напор в пласте сохраняется — при открытии вода снова забьёт.';};
+$('playBtn2').onclick=()=>{play2=!play2;$('playBtn2').textContent=play2?'⏸ Пауза':'▶ Запустить';$('playBtn2').setAttribute('aria-pressed',String(play2));last2=performance.now();};
+function tick2(now){
+  const dt=Math.min((now-last2)/1000,.05);last2=now;
+  if(play2)simT+=dt;
+  f2h+=((valve?94:0)-f2h)*(1-Math.exp(-3*dt));
+  $('f2jet').setAttribute('y',244-f2h);$('f2jet').setAttribute('height',Math.max(f2h,0));
+  $('f2jet').setAttribute('opacity',f2h>4?.9:0);
+  $('f2d1').setAttribute('cy',236-f2h);$('f2d2').setAttribute('cy',220-f2h);$('f2d3').setAttribute('cy',212-f2h);
+  ['f2d1','f2d2','f2d3'].forEach(id=>$(id).setAttribute('opacity',f2h>4?.8:0));
+  for(let i=0;i<N;i++){
+    const side=i%2===0, tt=((play2?simT:simT)+i/N)%1;
+    let pos;
+    if(tt<0.72)pos=along(side?leftPts:rightPts,tt/0.72);
+    else{const k=(tt-0.72)/0.28;const y=384-k*(384-262);pos=[500,y];}
+    parts[i].setAttribute('cx',pos[0]);parts[i].setAttribute('cy',pos[1]);
+    parts[i].setAttribute('opacity',(!valve&&tt>=0.72)?0:.95);
+  }
+  requestAnimationFrame(tick2);
+}
+requestAnimationFrame(tick2);
+
+/* ---------- VIEW 3 : spring capture ---------- */
+const d3G=$('drops3'), d3=[];
+for(let i=0;i<28;i++){const l=document.createElementNS('http://www.w3.org/2000/svg','line');const x=20+Math.random()*480;l.setAttribute('x1',x);l.setAttribute('x2',x-8);l.setAttribute('y1',44+Math.random()*66);l.setAttribute('y2',+l.getAttribute('y1')+15);d3G.append(l);d3.push({el:l,sp:240+Math.random()*150,y:+l.getAttribute('y1')});}
+const pd3G=$('pdrops3'), pd3=[];
+for(let i=0;i<5;i++){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',4);pd3G.append(c);pd3.push({el:c,k:i/5});}
+let rain3=false, play3=true, debit=0.4, last3=performance.now();
+$('rain3Btn').onclick=()=>{rain3=!rain3;$('rain3Btn').textContent=rain3?'Выключить дождь':'Включить дождь';$('rain3Btn').setAttribute('aria-pressed',String(rain3));};
+$('play3Btn').onclick=()=>{play3=!play3;$('play3Btn').textContent=play3?'⏸ Пауза':'▶ Запустить';$('play3Btn').setAttribute('aria-pressed',String(play3));last3=performance.now();};
+function tick3(now){
+  const dt=Math.min((now-last3)/1000,.05);last3=now;
+  if(play3)debit+=((rain3?3.0:0.4)-debit)*(1-Math.exp(-0.4*dt));
+  $('jet3').setAttribute('stroke-width',(4+debit*2.6).toFixed(1));
+  $('jet3').setAttribute('opacity',(.45+.55*debit/3).toFixed(2));
+  $('stream3').setAttribute('stroke-width',(4+debit*2.6).toFixed(1));
+  d3G.setAttribute('opacity',rain3?0.9:0);
+  if(rain3&&play3){for(const d of d3){d.y+=d.sp*dt;if(d.y>115){d.y=44;const x=20+Math.random()*480;d.el.setAttribute('x1',x);d.el.setAttribute('x2',x-8);}d.el.setAttribute('y1',d.y);d.el.setAttribute('y2',d.y+15);}}
+  for(const q of pd3){if(play3)q.k=(q.k+dt*0.9)%1;const x=666+36*q.k,y=302+62*q.k*q.k;q.el.setAttribute('cx',x);q.el.setAttribute('cy',y);q.el.setAttribute('opacity',(.35+.6*debit/3).toFixed(2));}
+  $('s3line').textContent=(rain3?'Идёт дождь: склон пропитывается, зеркало вод поднимается. ':'Дождя нет: родник питается запасом воды в склоне. ')+`Дебит родника: ${debit.toFixed(1)} л/с — ${debit<1?'слабая струйка':debit<2?'уверенная струя':'полноводный излив'}.`;
+  requestAnimationFrame(tick3);
+}
+requestAnimationFrame(tick3);
+</script>
+</body>
+</html>
