@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Симуляторы: рост населения мира 1800–2050 и путь от села до мегалополиса.">
+<title>Население мира · География.Яма</title>
+<style>
+:root{--ink:#142a3d;--muted:#60758a;--blue:#165fc7;--deep:#102b44;--line:#cfdeeb;--card:#fff;--shadow:0 18px 55px rgba(24,62,96,.14)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(135deg,#f8fbff,#e5eff8);color:var(--ink);font:16px/1.45 Arial,sans-serif}button,a{font:inherit}button{cursor:pointer}
+.topbar{height:64px;padding:0 max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}
+.brand{color:var(--ink);font-weight:900;text-decoration:none;font-size:20px}.brand span{color:var(--blue)}.back{color:var(--muted);text-decoration:none;font-weight:700}.back:hover{color:var(--blue)}
+.page{max-width:1180px;margin:0 auto;padding:28px 18px 60px}
+.intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}.eyebrow{color:var(--blue);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.13em}
+.intro h1{font-size:clamp(32px,5vw,56px);line-height:1.04;letter-spacing:-.04em;margin:7px 0 0}.hint{max-width:440px;color:var(--muted);margin:0 0 5px}
+.stage-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stage-tab{min-height:56px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.75);color:#234b66;font-weight:800;padding:8px 10px}
+.stage-tab[aria-pressed=true]{background:#174f75;color:#fff;border-color:#174f75}
+.simulator{background:linear-gradient(145deg,#102b44,#143d61);border-radius:24px;padding:18px;box-shadow:var(--shadow);color:#fff}
+.stage{position:relative;overflow:hidden;border-radius:17px;background:radial-gradient(circle at 50% 35%,#183f60 0,#0c2237 68%,#081827 100%)}
+.stage svg{display:block;width:100%;height:auto}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 4px 2px}
+.control{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;border-radius:10px;padding:10px 16px;font-weight:700;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.control:active{transform:scale(.96)}
+.control.primary{background:#2f8de0;border-color:#2f8de0}
+.timeline{display:flex;align-items:center;gap:10px;flex:1;min-width:220px;color:#cfe4f5;font-weight:700;font-size:13px}
+.timeline input{flex:1;accent-color:#2f8de0}
+.readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.readout{background:#d9cda1;border:1px solid #bfae74;border-radius:12px;padding:10px 12px}
+.readout span{display:block;font-size:13px;color:#142a3d;font-weight:700}.readout strong{font-size:19px;color:#000}
+.statusline{margin-top:10px;background:#fff;color:var(--ink);border-radius:12px;padding:12px 14px;font-size:14px;min-height:48px}
+.bars{display:grid;gap:6px;margin-top:12px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 52px;gap:10px;align-items:center;font-size:13px;color:#cfe4f5}
+.bar-track{height:12px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden}
+.bar-fill{height:100%;background:#5aa9ff;border-radius:999px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;color:#cfe4f5;cursor:pointer;background:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.chip.on{background:#fff;color:#14365a;border-color:#fff}
+.explanation{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h2{margin:0 0 10px;font-size:21px}.card p{margin:8px 0;color:#274b65}.card .note{font-size:14px;color:var(--muted)}
+.steps{display:grid;gap:10px}.step{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.step > b{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#e3eef7;color:#174f75}
+button:focus-visible,a:focus-visible{outline:3px solid #73b8ff;outline-offset:3px}
+@media(max-width:860px){.intro{display:block}.hint{margin-top:10px}.stage-tabs{grid-template-columns:1fr}.explanation{grid-template-columns:1fr}.readouts{grid-template-columns:1fr 1fr}.simulator{padding:10px}.bar-row{grid-template-columns:110px 1fr 46px}}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html">География<span>.Яма</span></a><a class="back" href="index.html">← Все тренажёры</a></header>
+<main class="page">
+<section class="intro"><div><div class="eyebrow">Интерактивная модель · 7 класс</div><h1>Население<br>мира</h1></div><p class="hint">Два симулятора: как человечество выросло с 1 до 8 млрд и как село превращается в мегалополис. Двигайте время и стадии.</p></section>
+
+<nav class="stage-tabs" aria-label="Разделы">
+<button class="stage-tab" id="t1" aria-pressed="true">1. Рост населения мира<br><small>7500 до н.э. → 2050: 10 млн → 9 млрд</small></button>
+<button class="stage-tab" id="t2" aria-pressed="false">2. Город → мегалополис<br><small>село · город · агломерация</small></button>
+</nav>
+
+<section class="simulator" aria-label="Симуляторы населения">
+<!-- VIEW 1 -->
+<div class="stage" id="view1">
+<svg id="chart" viewBox="0 0 1000 430" role="img" aria-label="График роста населения мира"></svg>
+<div class="controls">
+<button class="control primary" id="play1">▶ Рост</button>
+<label class="timeline">7500 до н.э. <input id="year" type="range" min="0" max="1000" step="1" value="892"> 2050</label>
+</div>
+<div class="readouts" aria-live="polite">
+<div class="readout"><span>Год</span><strong id="rYear">2022</strong></div>
+<div class="readout"><span>Население</span><strong id="rPop">8,0 млрд</strong></div>
+<div class="readout"><span>Прирост</span><strong id="rRate">80 млн/год</strong></div>
+<div class="readout"><span>Этап</span><strong id="rEra" style="font-size:15px">Замедление</strong></div>
+</div>
+<div class="bars" id="regions" aria-label="Доля регионов в населении мира"></div>
+<div class="statusline" id="s1line"></div>
+</div>
+
+<!-- VIEW 2 -->
+<div class="stage" id="view2" hidden>
+<svg id="city" viewBox="0 0 1000 460" role="img" aria-label="Стадии роста поселений"></svg>
+<div class="controls" id="stageBtns">
+<button class="control on" data-s="0">1 · Село</button>
+<button class="control" data-s="1">2 · Город</button>
+<button class="control" data-s="2">3 · Агломерация</button>
+<button class="control" data-s="3">4 · Мегалополис</button>
+<button class="control primary" id="play2">▶ Рост</button>
+</div>
+<div class="chips" id="funcs" aria-label="Функции городов"></div>
+<div class="statusline" id="s2line"></div>
+</div>
+</section>
+
+<section class="explanation">
+<article class="card"><h2>Почему население выросло</h2><div class="steps">
+<div class="step"><b>1</b><p>Раньше рост сдерживали войны, эпидемии и голод. С XIX века медицина, питание и уровень жизни улучшились — рост ускорился.</p></div>
+<div class="step"><b>2</b><p>Демографический взрыв второй половины XX века дали Африка, Азия и Южная Америка: рождаемость высокая, а смертность упала.</p></div>
+<div class="step"><b>3</b><p>По таблице учебника: 7–8 тыс. лет до н.э. — 10 млн; начало н.э. — 250 млн; первый миллиард — лишь к 1820 году. Сейчас: 8+ млрд, прогноз — 9 млрд к 2050 году. В Азии — больше 60%, Китай и Индия — около 40%.</p></div>
+</div></article>
+<aside class="card"><h2>Ступени расселения</h2><p><b>Село</b> — до 12 тыс. жителей, сельское хозяйство.</p><p><b>Город</b> — от 12 тыс., промышленность и услуги.</p><p><b>Агломерация</b> — срастание города со спутниками (Токио — 35+ млн; свыше 20 млн — Сан-Паулу, Мехико, Нью-Йорк, Сеул, Манила, Мумбаи; Москва — свыше 10 млн).</p><p><b>Мегалополис</b> — срастание агломераций в полосу; в мире около 20 таких гигантов.</p><p class="note">Функции городов: промышленные, туризма, религиозные, университетские, научные, обслуживание села.</p></aside>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const views={t1:'view1',t2:'view2'};
+Object.keys(views).forEach(id=>{$(id).onclick=()=>{
+Object.keys(views).forEach(k=>{$(k).setAttribute('aria-pressed',k===id?'true':'false');$(views[k]).hidden=k!==id;});};});
+
+/* ---------- VIEW 1 : population since 7500 BCE (textbook table) ---------- */
+const MS=[[-7500,'7500 до н.э.',10],[-2000,'2000 до н.э.',50],[1,'нач. н.э.',250],[1000,'1000',300],[1500,'1500',438],[1820,'1820',1000],[1900,'1900',1630],[1927,'1927',2000],[1960,'1960',3000],[1974,'1974',4000],[1987,'1987',5000],[2017,'2017',7346],[2022,'2022',8000],[2050,'2050*',9000]];
+const MV=['10 млн','50 млн','250 млн','300 млн','438 млн','1 млрд','1,6 млрд','2 млрд','3 млрд','4 млрд','5 млрд','7,3 млрд','8 млрд','9 млрд*'];
+const SH=[[-7500,[55,20,12,11,2]],[1,[70,9,16,4,1]],[1000,[70,10,14,5,1]],[1500,[65,11,18,5,1]],[1820,[65,7,14,13,1]],[1900,[57,8,21,13,1]],[1950,[55,9,22,13.5,0.5]],[2000,[60,13,12,14,1]],[2022,[59,18,9,13,1]],[2050,[54,26,7,12,1]]];
+const REGN=['Азия','Африка','Европа','Америка','Океания'];
+const NS='http://www.w3.org/2000/svg';
+const B=1900,F=0.42,Y0=-7500,Y1=2050;
+const yearToT=y=>y<B?(y-Y0)/(B-Y0)*F:F+(y-B)/(Y1-B)*(1-F);
+const tToYear=t=>{const f=t/1000;return f<F?Y0+f/F*(B-Y0):B+(f-F)/(1-F)*(Y1-B);};
+function popAt(y){if(y<=MS[0][0])return MS[0][2];for(let i=1;i<MS.length;i++){if(y<=MS[i][0]){const a=MS[i-1][0],pa=MS[i-1][2],b=MS[i][0],pb=MS[i][2];return pa+(pb-pa)*(y-a)/(b-a);}}return MS[MS.length-1][2];}
+function rateAt(y){const a=Math.max(y-5,Y0),b=Math.min(y+5,Y1);return (popAt(b)-popAt(a))/(b-a);}
+function shareAt(y){if(y<=SH[0][0])return SH[0][1].slice();for(let i=1;i<SH.length;i++){if(y<=SH[i][0]){const a=SH[i-1][0],sa=SH[i-1][1],b=SH[i][0],sb=SH[i][1],k=(y-a)/(b-a);return sa.map((v,j)=>v+(sb[j]-v)*k);}}return SH[SH.length-1][1].slice();}
+const era=y=>y<-2000?'Неолит':y<1?'Древний мир':y<1500?'Средневековье':y<1900?'Новое время':y<1950?'XX век: ускорение':y<2000?'Демографический взрыв':'Замедление';
+const W=1000,H=430,ml=64,mr=24,mt=30,mb=52;
+const X=y=>ml+yearToT(y)*(W-ml-mr), Yv=v=>H-mb-(v/1000)/10*(H-mt-mb);
+const fmt=(n,d=1)=>n.toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtY=y=>y<0?Math.abs(Math.round(y))+' до н.э.':String(Math.round(y));
+const fmtP=v=>v>=1000?fmt(v/1000)+' млрд':'≈ '+Math.round(v)+' млн';
+function drawChart(year){
+  const svg=$('chart');let s='';
+  for(let p=0;p<=10;p+=2){s+=`<line x1="${ml}" y1="${Yv(p*1000)}" x2="${W-mr}" y2="${Yv(p*1000)}" stroke="#3a5a76" stroke-width="1"/><text x="${ml-8}" y="${Yv(p*1000)+5}" text-anchor="end" font-size="13" fill="#8fb0c9">${p} млрд</text>`;}
+  for(const[ty,tl]of[[-7500,'7500 до н.э.'],[-2000,'2000 до н.э.'],[1,'1'],[1000,'1000'],[1900,'1900'],[1950,'1950'],[2000,'2000'],[2050,'2050*']]){s+=`<text x="${X(ty).toFixed(0)}" y="${H-24}" text-anchor="middle" font-size="12" fill="#8fb0c9">${tl}</text>`;}
+  let full='';for(let k=0;k<=400;k++){const yy=tToYear(k/400*1000);full+=`${X(yy).toFixed(1)},${Yv(popAt(yy)).toFixed(1)} `;}
+  s+=`<polyline points="${full}" fill="none" stroke="#33566e" stroke-width="3"/>`;
+  let line='';const T=yearToT(year);for(let k=0;k<=160;k++){const yy=tToYear(T*1000*k/160);line+=`${X(yy).toFixed(1)},${Yv(popAt(yy)).toFixed(1)} `;}
+  s+=`<polygon points="${X(Y0).toFixed(1)},${Yv(0)} ${line}${X(year).toFixed(1)},${Yv(0)}" fill="#2f8de0" opacity=".35"/>`;
+  s+=`<polyline points="${line}" fill="none" stroke="#5aa9ff" stroke-width="4"/>`;
+  MS.forEach(([y,sl],i)=>{const done=y<=year,xx=X(y).toFixed(1),yy=Yv(MS[i][2]).toFixed(1),up=+yy>170,ay=+yy+(up?-12:16);
+    s+=`<circle cx="${xx}" cy="${yy}" r="${done?7:5}" fill="${done?'#ffd166':'#0c2237'}" stroke="#ffd166" stroke-width="2"/>`;
+    s+=`<text font-size="11" font-weight="bold" fill="${done?'#ffd166':'#5a7b95'}" transform="rotate(${up?-90:90} ${xx} ${ay})" x="${xx}" y="${ay}" text-anchor="start">${sl} · ${MV[i]}</text>`;});
+  s+=`<line x1="${X(year).toFixed(1)}" y1="${mt-6}" x2="${X(year).toFixed(1)}" y2="${H-mb}" stroke="#fff" stroke-width="2"/>`;
+  s+=`<circle cx="${X(year).toFixed(1)}" cy="${Yv(popAt(year)).toFixed(1)}" r="9" fill="#fff" stroke="#2f8de0" stroke-width="4"/>`;
+  svg.innerHTML=s;
+  const v=popAt(year),r=rateAt(year);
+  $('rYear').textContent=fmtY(year);
+  $('rPop').textContent=fmtP(v);
+  $('rRate').textContent=r>=1?Math.round(r)+' млн/год':r>=0.01?'≈'+Math.round(r*1000)+' тыс./год':'≈'+Math.round(r*1e6)+' чел./год';
+  $('rEra').textContent=era(year);
+  const sh=shareAt(year);
+  $('regions').innerHTML=REGN.map((n,j)=>`<div class="bar-row"><span>${n}</span><div class="bar-track"><div class="bar-fill" style="width:${sh[j].toFixed(1)}%"></div></div><span>${String(+sh[j].toFixed(1)).replace('.',',')}%</span></div>`).join('')+`<div style="font-size:12px;color:#8fb0c9">Доли регионов — исторические оценки (для древности приблизительные).</div>`;
+  $('s1line').textContent=
+    year<-2000?'7–8 тыс. лет до н.э.: около 10 млн человек — охотники и первые земледельцы.':
+    year<1?'К началу нашей эры — около 250 млн: за 7 тысяч лет рост всего в 25 раз.':
+    year<1500?fmtY(year)+': '+fmtP(v)+'. Средневековье: войны и эпидемии сдерживают рост.':
+    year<1900?fmtY(year)+': '+fmtP(v)+'. Первый миллиард — лишь к 1820 году, Новое время разгоняется.':
+    year<1950?Math.round(year)+' год: '+fmtP(v)+'. Медицина и питание ускоряют рост.':
+    year<2000?'Демографический взрыв: 1960 — 3 млрд, 1987 — 5 млрд. 9/10 прироста дают Азия, Африка и Южная Америка.':
+    year<2023?'Сейчас: больше 8 млрд, +75–80 млн в год. Азия — около 60%, Китай и Индия — около 40%.':
+    'Прогноз: к 2050 году — 9 млрд. За XX век население выросло почти в 4 раза (1,6 → 6 млрд).';
+}
+let tcur=892,playing1=false,t1=null;
+function setT(t){tcur=Math.max(0,Math.min(1000,Math.round(t)));$('year').value=tcur;drawChart(tToYear(tcur));}
+$('year').oninput=e=>{stop1();setT(+e.target.value);};
+function stop1(){playing1=false;clearInterval(t1);$('play1').textContent='▶ Рост';}
+$('play1').onclick=()=>{if(playing1){stop1();return;}playing1=true;$('play1').textContent='⏸ Пауза';if(tcur>=1000)setT(0);t1=setInterval(()=>{setT(tcur+4);if(tcur>=1000)stop1();},90);};
+setT(892);
+
+/* ---------- VIEW 2 : city growth ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let z=Math.imul(seed^seed>>>15,1|seed);z=z+Math.imul(z^z>>>7,61|z)^z;return((z^z>>>14)>>>0)/4294967296;};}
+const R=rng(7),ND=320,dots=[];
+const citySvg=$('city');
+for(let i=0;i<ND;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('r',4.5);citySvg.append(c);dots.push({el:c,x:100+R()*800,y:60+R()*340});}
+const labG=document.createElementNS(NS,'g');citySvg.append(labG);
+const bgG=document.createElementNS(NS,'g');citySvg.insertBefore(bgG,citySvg.firstChild);
+function drawBg(s){
+  bgG.innerHTML='';
+  const E=(cx,cy,rx,ry,fill,dash,col)=>{const e=document.createElementNS(NS,'ellipse');e.setAttribute('cx',cx);e.setAttribute('cy',cy);e.setAttribute('rx',rx);e.setAttribute('ry',ry);e.setAttribute('fill',fill);if(dash){e.setAttribute('stroke',col);e.setAttribute('stroke-width','2.5');e.setAttribute('stroke-dasharray','10 7');}bgG.append(e);};
+  if(s===1){E(500,230,170,130,'rgba(255,209,102,.13)',true,'#ffd166');}
+  if(s===2){E(500,230,285,200,'rgba(255,159,67,.10)',true,'#ff9f43');E(500,230,160,118,'rgba(255,159,67,.16)',true,'#ff9f43');}
+  if(s===3){for(const hx of[260,420,580,740])E(hx,230,150,118,'rgba(255,107,107,.08)',true,'#ff6b6b');}
+}
+function lab(x,y,text,size,fill,anchor){const e=document.createElementNS(NS,'text');e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size',size);e.setAttribute('font-weight','bold');e.setAttribute('fill',fill);if(anchor)e.setAttribute('text-anchor',anchor);e.setAttribute('style','paint-order:stroke');e.setAttribute('stroke','#0c2237');e.setAttribute('stroke-width','5');e.textContent=text;labG.append(e);return e;}
+const ST=['СЕЛО','ГОРОД','АГЛОМЕРАЦИЯ','МЕГАЛОПОЛИС'];
+const STSUB=['до 12 тыс. жителей · сельское хозяйство','от 12 тыс. · промышленность и услуги','город + пригороды · общие связи','полоса сросшихся агломераций · 10 млн+'];
+function drawLabels(s){
+  labG.innerHTML='';
+  lab(24,48,ST[s],26,'#ffffff');lab(24,74,STSUB[s],14,'#8fb0c9');
+  if(s===0)lab(120,58,'село',14,'#cfe4f5','middle');
+  if(s===1){lab(500,96,'центр',14,'#cfe4f5','middle');lab(720,196,'город-спутник',14,'#cfe4f5');lab(150,400,'пригород',14,'#8fb0c9');}
+  if(s===2){lab(500,94,'ядро',14,'#cfe4f5','middle');lab(700,122,'пригороды',14,'#cfe4f5');}
+  if(s===3){lab(500,92,'ядра агломераций',14,'#cfe4f5','middle');
+    const ln=document.createElementNS(NS,'line');ln.setAttribute('x1',210);ln.setAttribute('y1',388);ln.setAttribute('x2',790);ln.setAttribute('y2',388);ln.setAttribute('stroke','#ffd166');ln.setAttribute('stroke-width','3');labG.append(ln);
+    for(const px of[210,790]){const tr=document.createElementNS(NS,'polygon');tr.setAttribute('points',px===210?'210,388 228,381 228,395':'790,388 772,381 772,395');tr.setAttribute('fill','#ffd166');labG.append(tr);}
+    lab(500,418,'срастание в полосу',14,'#ffd166','middle');}
+  const dot=document.createElementNS(NS,'circle');dot.setAttribute('cx',30);dot.setAttribute('cy',432);dot.setAttribute('r',5);dot.setAttribute('fill',COL[s]);labG.append(dot);
+  lab(44,437,'точка — жители (схематично, без масштаба)',12,'#8fb0c9');
+  if(s>=1){const ln=document.createElementNS(NS,'line');ln.setAttribute('x1',22);ln.setAttribute('y1',452);ln.setAttribute('x2',58);ln.setAttribute('y2',452);ln.setAttribute('stroke','#fff');ln.setAttribute('stroke-width','2.5');ln.setAttribute('stroke-dasharray','7 5');labG.append(ln);
+  lab(66,456,'пунктир — граница',12,'#8fb0c9');}
+}
+let PRR=R;
+const gauss=()=> (PRR()+PRR()+PRR()-1.5)*2;
+function target(i,s){
+  if(s===0){const k=i%6,cx=120+(k%3)*280,cy=120+Math.floor(k/3)*200;return[cx+gauss()*38,cy+gauss()*30];}
+  if(s===1){if(i%20<13)return[500+gauss()*70,230+gauss()*60];const k=i%5,a=k*Math.PI*2/5;return[500+Math.cos(a)*260,230+Math.sin(a)*130];}
+  if(s===2){const m=i%10;if(m<4)return[500+gauss()*70,230+gauss()*55];const k=(m-4)%6,a=k*Math.PI/3+0.5;return[500+Math.cos(a)*170,230+Math.sin(a)*120];}
+  const hubs=[[260,230],[420,230],[580,230],[740,230]],h=hubs[i%4];return[h[0]+gauss()*62,h[1]+gauss()*52];
+}
+// стабильные цели на стадию (без дрожания)
+let goals=[],gStage=-1;
+function setGoals(s){gStage=s;PRR=rng(1000+s*77);goals=dots.map((_,i)=>target(i,s));}
+const COL=['#9db3a8','#ffd166','#ff9f43','#ff6b6b'];
+const FACTS=[
+ 'Село: до 12 тыс. жителей, сельское хозяйство, спокойный темп. Названия: село, деревня, аул, хутор, кишлак, станица, ранчо, фазенда.',
+ 'Город: от 12 тыс., промышленность и услуги, плотная застройка. Москва — свыше 10 млн жителей.',
+ 'Агломерация: город срастается со спутниками. Токио — 35+ млн; свыше 20 млн: Сан-Паулу, Мехико, Нью-Йорк, Сеул, Манила, Мумбаи.',
+ 'Мегалополис: полоса сросшихся агломераций. В мире около 20 гигантов с населением свыше 10 млн.'];
+const STAGE_N=['≈ сотни жителей','≈ десятки тысяч','≈ миллионы','≈ десятки миллионов'];
+let stage=0,playing2=false,t2=null;
+function setStage(s){stage=s;setGoals(s);drawBg(s);
+  document.querySelectorAll('#stageBtns .control[data-s]').forEach(b=>b.classList.toggle('on',+b.dataset.s===s));
+  dots.forEach(d=>d.el.setAttribute('fill',COL[s]));
+  document.querySelectorAll('#funcs .chip').forEach(x=>x.classList.remove('on'));
+  drawLabels(s);
+  $('s2line').innerHTML=`<b>Стадия ${s+1}: ${['Село','Город','Агломерация','Мегалополис'][s]}.</b> На схеме каждая точка — группа жителей: смотри, как они стягиваются к центрам. ${FACTS[s]} <b>Масштаб: ${STAGE_N[s]}.</b>`;
+}
+document.querySelectorAll('#stageBtns .control[data-s]').forEach(b=>b.onclick=()=>{stop2();setStage(+b.dataset.s);});
+function stop2(){playing2=false;clearInterval(t2);$('play2').textContent='▶ Рост';}
+$('play2').onclick=()=>{if(playing2){stop2();return;}playing2=true;$('play2').textContent='⏸ Пауза';if(stage>=3)setStage(0);t2=setInterval(()=>{if(stage>=3){stop2();return;}setStage(stage+1);},2600);};
+const FUNCS=[['промышленные','Заводы и фабрики — градообразующие предприятия. Примеры: Магнитогорск, Норильск, Детройт.'],['туризма','Отдых и достопримечательности. Примеры: Париж, Венеция, Сочи.'],['религиозные','Паломничество к святыням. Примеры: Мекка, Ватикан, Иерусалим.'],['университетские','Образование и студенты. Примеры: Оксфорд, Томск, Казань.'],['научные','Исследования и технологии. Примеры: Дубна, Новосибирский Академгородок, Женева.'],['обслуживание села','Торговля, больницы и школы для окрестных сёл. Примеры: районные центры.']];
+$('funcs').innerHTML=FUNCS.map((f,i)=>`<span class="chip" data-f="${i}" role="button" tabindex="0">${f[0]}</span>`).join('');
+document.querySelectorAll('#funcs .chip').forEach(ch=>{
+  const show=()=>{document.querySelectorAll('#funcs .chip').forEach(x=>x.classList.remove('on'));ch.classList.add('on');$('s2line').innerHTML=`<b>Функция города: ${FUNCS[+ch.dataset.f][0]}.</b> ${FUNCS[+ch.dataset.f][1]} Нажми стадию 1–4, чтобы вернуться к схеме.`;};
+  ch.onclick=show;ch.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show();}};
+});
+(function loop(){let need=false;dots.forEach((d,i)=>{const g=goals[i];if(!g)return;const dx=g[0]-d.x,dy=g[1]-d.y;if(Math.abs(dx)>0.4||Math.abs(dy)>0.4){need=true;d.x+=dx*0.08;d.y+=dy*0.08;}d.el.setAttribute('cx',d.x.toFixed(1));d.el.setAttribute('cy',d.y.toFixed(1));});requestAnimationFrame(loop);})();
+setStage(0);
+</script>
+</body>
+</html>
