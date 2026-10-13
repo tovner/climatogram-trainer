@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Тренажёр возрастных пирамид: учимся читать и угадываем страну по пирамиде.">
+<title>Пирамиды населения · География.Яма</title>
+<style>
+:root{--ink:#142a3d;--muted:#52677b;--blue:#165fc7;--line:#d5e1ec;--paper:#fff;--bg:#eef4fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Arial,sans-serif}
+button,a,input{font:inherit}button{cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #e69213;outline-offset:3px}
+header{background:#102b44;color:#fff;padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;gap:18px;align-items:center}
+header b{font-size:20px}header span{color:#b4d1ed;font-size:14px}
+.shell{max-width:1180px;margin:0 auto;padding:24px 20px 40px}
+h1{font-size:clamp(25px,4vw,36px);line-height:1.2;margin:0 0 6px}.muted{color:var(--muted)}
+.tabs{display:flex;gap:5px;background:#dfe9f3;border-radius:12px;padding:5px;width:max-content;max-width:100%;margin:18px 0 22px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;padding:10px 20px;border-radius:8px;color:var(--ink);font-weight:bold}
+.tabs button[aria-selected=true]{background:white;box-shadow:0 2px 6px #15304718;color:var(--blue)}
+[hidden]{display:none!important}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px}
+.layout{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:start}
+.pyr{background:#f4f9fd;border:1px solid var(--line);border-radius:12px;padding:10px}
+.pyr svg{display:block;width:100%;height:auto}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.pill{border:1px solid #b8cbd8;background:#fff;border-radius:999px;padding:7px 14px;font-weight:700;color:var(--ink);font-size:14px}
+.pill[aria-pressed=true]{background:#174f75;border-color:#174f75;color:#fff}
+.stepbtn{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;margin:0 0 8px;font-size:14px}
+.stepbtn b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e3eef7;color:#174f75;margin-right:8px}
+.stepbtn[aria-pressed=true]{border-color:var(--blue);background:#eaf3fc}
+.sex-controls{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.sex-controls button{border:1px solid #b8cbd8;background:#fff;border-radius:999px;padding:7px 13px;color:var(--ink);font-weight:700}
+.sex-controls button[aria-pressed=true]{background:#174f75;border-color:#174f75;color:#fff}
+.verdict{background:#f2f7fc;border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:12px;color:#274b65;font-size:14px}
+.verdict b{color:var(--ink)}
+.topline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:12px}
+.progress{height:8px;background:#dfe9f3;border-radius:999px;overflow:hidden;margin:8px 0}
+.progress div{height:100%;background:var(--blue);width:0}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.opt{border:2px solid #b8cbd8;background:#fff;border-radius:12px;padding:12px;font-weight:800;font-size:16px}
+.opt[aria-pressed=true]{border-color:var(--blue);background:#eaf3fc}
+.opt:disabled{opacity:.85;cursor:default}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{border:0;background:var(--blue);color:#fff;border-radius:10px;padding:11px 20px;font-weight:800}
+.btn.secondary{background:#dfe9f3;color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.status{min-height:24px;margin-top:10px;font-weight:700}
+.feedback{border-radius:10px;padding:12px 14px;margin-top:10px}
+.feedback.good{background:#e9f7ef;color:#1c6b3f}.feedback.bad{background:#fff0ed;color:#8f2f26}
+.compare-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.compare-grid>div{display:flex;flex-direction:column}
+.compare-grid .compare-note{flex:1}
+.compare-controls label{display:grid;gap:6px;font-weight:700}
+.compare-controls select{width:100%;border:1px solid #b8cbd8;border-radius:10px;padding:10px;background:#fff;color:var(--ink)}
+.compare-note{margin-top:14px;padding:14px 16px;border-radius:12px;background:#f2f7fc;border-left:4px solid var(--blue)}
+.source-note{margin-top:18px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#f8fbfe;font-size:13px}
+.source-note a{color:var(--blue);font-weight:700}
+footer{color:var(--muted);font-size:13px;margin-top:18px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.card{padding:14px}.options{grid-template-columns:1fr}}
+@media(max-width:520px){.compare-controls{grid-template-columns:1fr}}
+</style></head><body>
+<header><b><a href="index.html" style="color:#fff;text-decoration:none">← География.Яма</a></b><span>Тренажёр «Пирамиды»</span></header>
+<main class="shell">
+<div><h1>Читаем возрастные пирамиды</h1><div class="muted">Возрастные группы шагом 5 лет: слева — мужчины, справа — женщины. Сначала научитесь читать форму, затем проверьте себя и сравните страны.</div></div>
+<nav class="tabs" role="tablist" aria-label="Разделы">
+<button id="tab-train" role="tab" aria-controls="train" aria-selected="true">1 · Обучение</button>
+<button id="tab-game" role="tab" aria-controls="game" aria-selected="false" tabindex="-1">2 · Угадай страну</button>
+<button id="tab-compare" role="tab" aria-controls="compare" aria-selected="false" tabindex="-1">3 · Сравнение</button>
+</nav>
+
+<section id="train" role="tabpanel" aria-labelledby="tab-train">
+<div class="card">
+<div class="pills" id="countrypills" aria-label="Выбор страны"></div>
+<div class="layout">
+<div class="pyr" id="pyr1"></div>
+<div>
+<div id="steps" aria-label="Шаги разбора"></div>
+<div class="sex-controls" id="sex-controls" aria-label="Выберите половину пирамиды" hidden><button type="button" data-sex="m" aria-pressed="true">Мужчины</button><button type="button" data-sex="f" aria-pressed="false">Женщины</button></div>
+<div class="verdict" id="verdict" aria-live="polite"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="game" role="tabpanel" aria-labelledby="tab-game" hidden>
+<div class="card">
+<div class="topline"><span id="position"></span><span id="score"></span></div>
+<div class="progress" aria-hidden="true"><div id="bar"></div></div>
+<p style="margin:6px 0"><b>Чья это пирамида?</b> Смотри на основание и верхушку — и выбирай страну.</p>
+<div class="layout">
+<div class="pyr" id="pyr2"></div>
+<div>
+<div class="options" id="gopts"></div>
+<div class="actions"><button class="btn" id="check">Проверить</button><button class="btn secondary" id="next" hidden>Следующая</button></div>
+<div id="status" class="status" role="status"></div>
+<div id="feedback" class="feedback" aria-live="polite" hidden></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+<div class="card">
+<h2 style="margin-top:0">Сравните две пирамиды</h2>
+<p class="muted">Выберите страны и сопоставьте основание, середину и верхушку. Так легче увидеть разницу в возрастной структуре.</p>
+<div class="compare-controls"><label>Первая страна<select id="compare-a"></select></label><label>Вторая страна<select id="compare-b"></select></label></div>
+<div class="layout compare-grid"><div><div class="pyr" id="compare-pyr-a"></div><div class="compare-note" id="compare-info-a"></div></div><div><div class="pyr" id="compare-pyr-b"></div><div class="compare-note" id="compare-info-b"></div></div></div>
+<div class="compare-note" id="compare-summary" aria-live="polite"></div>
+</div>
+</section>
+<div class="source-note"><b>О данных.</b> Это учебные модельные профили, а не точные статистические ряды за конкретный год. Они показывают типичные формы пирамид и подходят для тренировки чтения. Для актуальных данных по возрасту и полу используйте <a href="https://population.un.org/wpp/" target="_blank" rel="noopener">World Population Prospects ООН</a>.</div>
+<footer>Доли возрастных групп показаны в % от всего населения; модельные значения приближённые. Дети — 0–14 лет, взрослые — 15–64, пожилые — 65+.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const COH=['80+','75–79','70–74','65–69','60–64','55–59','50–54','45–49','40–44','35–39','30–34','25–29','20–24','15–19','10–14','5–9','0–4'];
+const COUNTRIES=[
+ {name:'Нигер',m:[9.0,8.4,7.8,6.2,5.3,4.3,3.1,2.0,1.2,0.7,0.5,0.3,0.2,0.45,0.35,0.25,0.35],f:[8.7,8.2,7.7,6.1,5.2,4.2,3.0,1.9,1.1,0.7,0.5,0.4,0.3,0.5,0.4,0.25,0.45],note:'Очень широкое основание — признак высокой доли детей.'},
+ {name:'Нигерия',m:[7.9,7.5,7.0,6.3,5.7,4.9,3.7,2.4,1.5,1.0,0.6,0.4,0.3,0.45,0.35,0.25,0.35],f:[7.6,7.2,6.8,6.1,5.5,4.8,3.6,2.4,1.5,1.0,0.6,0.4,0.3,0.5,0.4,0.3,0.4],note:'Основание широкое, но верхушка уже, чем у стареющих стран.'},
+ {name:'Бразилия',m:[3.7,3.6,3.4,3.9,3.9,3.8,3.7,3.6,3.5,3.3,3.1,2.9,2.8,1.3,1.1,0.7,0.9],f:[3.55,3.45,3.3,4.0,4.0,3.9,3.8,3.8,3.7,3.5,3.3,3.1,2.4,1.5,1.3,0.9,1.3],note:'Основание уже, чем у стран с очень высокой рождаемостью.'},
+ {name:'США',m:[3.3,3.2,3.2,3.3,3.3,3.2,3.2,3.3,3.4,3.3,3.2,3.0,2.8,2.3,1.9,1.3,1.7],f:[3.15,3.1,3.05,3.3,3.3,3.2,3.2,3.3,3.5,3.4,3.3,3.3,3.2,2.5,2.2,1.6,2.5],note:'Почти стационарный тип пирамиды.'},
+ {name:'Германия',m:[2.45,2.4,2.35,2.9,3.0,3.1,3.3,3.5,3.6,3.5,3.4,3.2,3.0,3.0,2.6,2.0,2.4],f:[2.3,2.25,2.25,2.8,2.9,3.0,3.2,3.4,3.5,3.4,3.3,3.1,2.9,3.2,2.9,2.4,3.5],note:'Основание сравнительно узкое, а старшие группы заметны.'},
+ {name:'Япония',m:[2.1,2.05,2.05,2.6,2.7,2.8,3.0,3.2,3.3,3.2,3.0,2.9,2.8,3.6,3.2,2.6,3.4],f:[1.95,1.9,1.95,2.55,2.65,2.75,2.95,3.15,3.25,3.2,3.05,3.0,2.95,4.0,3.7,3.2,5.3],note:'Узкое основание и заметная верхушка — черты стареющего населения.'},
+ {name:'Россия',m:[1.0,1.4,2.0,2.8,3.3,3.8,4.0,3.7,3.5,3.2,3.0,3.2,3.0,2.4,2.3,2.4,2.5],f:[1.8,2.4,2.9,3.4,3.7,4.1,4.3,3.9,3.7,3.4,3.1,3.2,2.9,2.3,2.2,2.3,2.4],note:'Учебный профиль: молодые возрастные группы уже, а среди пожилых заметно больше женщин.'}
+];
+const QUIZ_COUNTRIES=COUNTRIES.filter(c=>c.name!=='Россия');
+const INDIA={name:'Индия',m:[0.3,0.4,0.6,0.8,1.2,1.6,2.0,2.4,2.8,3.1,3.5,3.9,4.3,4.8,5.3,5.7,6.0],f:[0.35,0.45,0.65,0.85,1.25,1.65,2.05,2.45,2.85,3.15,3.55,3.95,4.35,4.85,5.35,5.75,6.05],note:'Учебный профиль: основание широкое, но молодые группы постепенно сокращаются.'};
+const TRAIN_COUNTRIES=[COUNTRIES[6],COUNTRIES[1],COUNTRIES[2],COUNTRIES[3],COUNTRIES[4],COUNTRIES[5],INDIA];
+const sum3=(a,i0)=>a[i0]+a[i0+1]+a[i0+2];
+const sum4=(a,i0)=>a[i0]+a[i0+1]+a[i0+2]+a[i0+3];
+const kids=c=>sum3(c.m,0)+sum3(c.f,0), olds=c=>sum4(c.m,13)+sum4(c.f,13);
+function typeOf(c){const k=kids(c);return k>=35?['расширяющийся','молодое и быстро растущее']:k>=18?['переходный','рост замедляется']:['суженный','стареющее, рост почти остановился'];}
+
+/* ---------- renderer with smooth animation ---------- */
+const anim={};
+function renderPyr(id,st,opts){
+  const o=Object.assign({title:'',hlRows:null,hlSide:''},opts||{});
+  const W=760,cx=W/2,maxV=10,bw=(W/2-110)/maxV,rowH=30,top=58,H=top+17*rowH+30;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Возрастная пирамида">`;
+  s+=`<text x="${cx}" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#142a3d">${o.title}</text>`;
+  s+=`<text x="110" y="50" font-size="13" font-weight="bold" fill="#3f8fe0">♂ мужчины</text>`;
+  s+=`<text x="${W-110}" y="50" text-anchor="end" font-size="13" font-weight="bold" fill="#e8738a">женщины ♀</text>`;
+  for(const gv of[5,10]){const xl=(cx-gv*bw).toFixed(1),xr=(cx+gv*bw).toFixed(1);
+    s+=`<line x1="${xl}" y1="42" x2="${xl}" y2="${top+17*rowH+4}" stroke="#d5e1ec" stroke-width="1" stroke-dasharray="4 4"/><line x1="${xr}" y1="42" x2="${xr}" y2="${top+17*rowH+4}" stroke="#d5e1ec" stroke-width="1" stroke-dasharray="4 4"/>`;}
+  for(let r=0;r<17;r++){
+    const y=top+r*rowH, ci=16-r, mv=st.m[ci], fv=st.f[ci];
+    const inHl=!o.hlRows||o.hlRows.includes(ci);
+    const dimM=!inHl||o.hlSide==='f', dimF=!inHl||o.hlSide==='m';
+    const hl=inHl&&o.hlRows&&o.hlRows.length<17;
+    const mw=mv*bw, fw=fv*bw, bh=rowH-7;
+    s+=`<text x="8" y="${y+20}" font-size="11" fill="#42647c">${COH[r]}</text>`;
+    s+=`<rect x="${(cx-mw).toFixed(1)}" y="${y+2}" width="${mw.toFixed(1)}" height="${bh}" rx="4" fill="#3f8fe0" opacity="${dimM?0.22:1}" ${hl?'stroke="#102b44" stroke-width="2.5"':''}/>`;
+    s+=`<rect x="${cx}" y="${y+2}" width="${fw.toFixed(1)}" height="${bh}" rx="4" fill="#e8738a" opacity="${dimF?0.22:1}" ${hl?'stroke="#102b44" stroke-width="2.5"':''}/>`;
+    if(mw>=46)s+=`<text x="${(cx-mw+7).toFixed(1)}" y="${y+20}" font-size="11" font-weight="bold" fill="#fff">${mv.toFixed(1)}%</text>`;
+    else s+=`<text x="${(cx-mw-5).toFixed(1)}" y="${y+20}" font-size="11" font-weight="bold" fill="#3f8fe0" text-anchor="end">${mv.toFixed(1)}%</text>`;
+    if(fw>=46)s+=`<text x="${(cx+fw-7).toFixed(1)}" y="${y+20}" font-size="11" font-weight="bold" fill="#fff" text-anchor="end">${fv.toFixed(1)}%</text>`;
+    else s+=`<text x="${(cx+fw+5).toFixed(1)}" y="${y+20}" font-size="11" font-weight="bold" fill="#e8738a" text-anchor="start">${fv.toFixed(1)}%</text>`;
+  }
+  s+=`<line x1="${cx}" y1="42" x2="${cx}" y2="${top+17*rowH+4}" stroke="#8aa2b5" stroke-width="2"/>`;
+  for(const gv of[5,10]){const xl=(cx-gv*bw).toFixed(1),xr=(cx+gv*bw).toFixed(1);
+    s+=`<text x="${xl}" y="${top+17*rowH+22}" text-anchor="middle" font-size="11" font-weight="bold" fill="#8aa2b5">${gv}%</text><text x="${xr}" y="${top+17*rowH+22}" text-anchor="middle" font-size="11" font-weight="bold" fill="#8aa2b5">${gv}%</text>`;}
+  s+=`<text x="${cx}" y="${top+17*rowH+22}" text-anchor="middle" font-size="11" font-weight="bold" fill="#8aa2b5">0%</text></svg>`;
+  $(id).innerHTML=s;
+}
+function showPyr(id,target,opts){
+  const a=anim[id]||(anim[id]={cur:{m:target.m.slice(),f:target.f.slice()},raf:0});
+  cancelAnimationFrame(a.raf);
+  const from={m:a.cur.m.slice(),f:a.cur.f.slice()},t0=performance.now(),D=650;
+  const step=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);
+    a.cur={m:from.m.map((v,i)=>v+(target.m[i]-v)*e),f:from.f.map((v,i)=>v+(target.f[i]-v)*e)};
+    renderPyr(id,a.cur,opts);
+    if(k<1)a.raf=requestAnimationFrame(step);};
+  a.raf=requestAnimationFrame(step);
+}
+function redraw(id,opts){const a=anim[id];if(a)renderPyr(id,a.cur,opts);}
+
+/* ---------- VIEW 1 : training ---------- */
+const STEPS=[
+ {t:'Основание — дети от 0 до 14 лет',d:'Одна полоска показывает группу из пяти лет: 0–4, 5–9 и 10–14 лет. Вместе это дети до 15 лет. Широкое основание означает, что детей в населении много.',hl:{rows:[0,1,2]}},
+ {t:'Середина — люди от 15 до 64 лет',d:'Здесь показаны взрослые трудоспособного возраста. Сравните ширину этой части с основанием и верхушкой.',hl:{rows:[3,4,5,6,7,8,9,10,11,12]}},
+ {t:'Верхушка — люди 65 лет и старше',d:'Чем шире верхняя часть, тем больше доля пожилых людей в населении. Это один из признаков старения населения.',hl:{rows:[13,14,15,16]}},
+ {t:'Слева мужчины, справа женщины',d:'Выберите «Мужчины» или «Женщины», чтобы подсветить нужную половину. В старших возрастах правая половина часто шире.',hl:{side:'m'}},
+ {t:'Форма показывает, молодеет или стареет население',d:'Широкое основание — детей много, население обычно растёт. Узкое основание и сравнительно широкая верхушка — доля пожилых выше, население стареет.',hl:{}}
+];
+let tCountry=0,tStep=-1,tSex='m';
+function trainOpts(){const h=tStep<0?{}:STEPS[tStep].hl;return{title:TRAIN_COUNTRIES[tCountry].name,hlRows:h.rows||null,hlSide:tStep===3?tSex:(h.side||'')};}
+function renderTrain(){
+  document.querySelectorAll('#countrypills .pill').forEach((b,i)=>b.setAttribute('aria-pressed',i===tCountry?'true':'false'));
+  document.querySelectorAll('#steps .stepbtn').forEach((b,i)=>b.setAttribute('aria-pressed',i===tStep?'true':'false'));
+  showPyr('pyr1',TRAIN_COUNTRIES[tCountry],trainOpts());
+  $('sex-controls').hidden=tStep!==3;
+  document.querySelectorAll('#sex-controls button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sex===tSex?'true':'false'));
+  const c=TRAIN_COUNTRIES[tCountry],tp=typeOf(c);
+  $('verdict').innerHTML=tStep<0?`<b>${c.name}:</b> детей ${kids(c).toFixed(1)}%, пожилых ${olds(c).toFixed(1)}% — условный тип <b>${tp[0]}</b>. ${c.note}<br>Пирамида показана целиком. Выберите шаг разбора, чтобы подсветить отдельную часть.`:`<b>${c.name}:</b> детей ${kids(c).toFixed(1)}%, пожилых ${olds(c).toFixed(1)}% — тип <b>${tp[0]}</b>, население ${tp[1]}.<br>${c.note}<br><b>Шаг ${tStep+1}:</b> ${STEPS[tStep].d}`;
+}
+  $('countrypills').innerHTML=TRAIN_COUNTRIES.map((c,i)=>`<button class="pill" data-i="${i}">${c.name}</button>`).join('');
+document.querySelectorAll('#countrypills .pill').forEach(b=>b.onclick=()=>{tCountry=+b.dataset.i;renderTrain();});
+$('steps').innerHTML=STEPS.map((s,i)=>`<button class="stepbtn" data-i="${i}"><b>${i+1}</b>${s.t}</button>`).join('');
+document.querySelectorAll('#steps .stepbtn').forEach(b=>b.onclick=()=>{tStep=+b.dataset.i;redraw('pyr1',trainOpts());document.querySelectorAll('#steps .stepbtn').forEach((x,j)=>x.setAttribute('aria-pressed',j===tStep?'true':'false'));$('sex-controls').hidden=tStep!==3;const c=TRAIN_COUNTRIES[tCountry],tp=typeOf(c);$('verdict').innerHTML=`<b>${c.name}:</b> детей ${kids(c).toFixed(1)}%, пожилых ${olds(c).toFixed(1)}% — тип <b>${tp[0]}</b>.<br><b>Шаг ${tStep+1}:</b> ${STEPS[tStep].d}`;});
+document.querySelectorAll('#sex-controls button').forEach(b=>b.onclick=()=>{tSex=b.dataset.sex;document.querySelectorAll('#sex-controls button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));redraw('pyr1',trainOpts());});
+renderTrain();
+
+/* ---------- VIEW 2 : game ---------- */
+const shuffle=a=>a.map(x=>({x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.x);
+let order=[],at=0,correct=0,done=false,gopts=[];
+function pickOrder(){return shuffle(QUIZ_COUNTRIES.map((_,i)=>i));}
+function renderGame(){
+  done=false;const ci=order[at],c=QUIZ_COUNTRIES[ci];
+  gopts=shuffle([ci,...shuffle(QUIZ_COUNTRIES.map((_,i)=>i).filter(i=>i!==ci)).slice(0,3)]);
+  $('position').textContent=`Задание ${at+1} из ${order.length}`;
+  $('score').textContent=`Верно: ${correct} из ${at}`;
+  $('bar').style.width=(at/order.length*100)+'%';
+  showPyr('pyr2',c,{title:'Чья пирамида? · №'+(at+1)});
+  $('gopts').innerHTML=gopts.map(i=>`<button class="opt" data-i="${i}">${QUIZ_COUNTRIES[i].name}</button>`).join('');
+  document.querySelectorAll('#gopts .opt').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#gopts .opt').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');$('status').textContent='';});
+  $('check').disabled=false;$('next').hidden=true;$('feedback').hidden=true;$('status').textContent='';
+}
+$('check').onclick=()=>{
+  if(done)return;
+  const sel=document.querySelector('#gopts .opt[aria-pressed="true"]');
+  if(!sel){$('status').textContent='Сначала выбери страну.';return;}
+  done=true;const ci=order[at],c=QUIZ_COUNTRIES[ci],ok=+sel.dataset.i===ci;
+  if(ok)correct++;
+  const tp=typeOf(c);
+  document.querySelectorAll('#gopts .opt').forEach(x=>x.disabled=true);
+  $('score').textContent=`Верно: ${correct} из ${at+1}`;
+  $('feedback').className='feedback '+(ok?'good':'bad');
+  const shapeHint=kids(c)>=35?'широкое основание показывает большую долю детей':kids(c)>=18?'основание умеренной ширины показывает переходную структуру':'узкое основание и более заметная верхушка указывают на старение населения';
+  $('feedback').innerHTML=ok?`<b>Верно! Это ${c.name}.</b> ${shapeHint}. Детей ${kids(c).toFixed(1)}%, пожилых ${olds(c).toFixed(1)}% — условный тип «${tp[0]}». ${c.note}`:`<b>Это ${c.name}.</b> Подсказка: ${shapeHint}. Детей ${kids(c).toFixed(1)}%, пожилых ${olds(c).toFixed(1)}% — условный тип «${tp[0]}». ${c.note}`;
+  $('feedback').hidden=false;$('check').disabled=true;$('next').hidden=false;
+  $('next').textContent=at===order.length-1?'Посмотреть результат':'Следующая';
+  $('bar').style.width=((at+1)/order.length*100)+'%';
+};
+$('next').onclick=()=>{
+  if(!done)return;at++;
+  if(at<order.length)renderGame();
+  else{$('gopts').innerHTML=`<div style="padding:26px;text-align:center"><h2>Готово: ${correct} / ${order.length}</h2><p>${correct===order.length?'Отлично! Пирамиды читаются.':correct>=5?'Хорошо. Повтори обучение и попробуй ещё.':'Загляни в обучение и попробуй ещё раз.'}</p><button class="btn" id="restart">Новая игра</button></div>`;
+  $('position').textContent='Игра завершена';$('status').textContent='';$('feedback').hidden=true;$('next').hidden=true;$('check').disabled=true;
+  $('restart').onclick=()=>{at=0;correct=0;order=pickOrder();$('check').disabled=false;renderGame();};}
+};
+order=pickOrder();renderGame();
+
+/* ---------- VIEW 3 : compare ---------- */
+const selectA=$('compare-a'),selectB=$('compare-b');
+[selectA,selectB].forEach((s,i)=>s.innerHTML=COUNTRIES.map((c,n)=>`<option value="${n}" ${n===(i?5:0)?'selected':''}>${c.name}</option>`).join(''));
+function profileSummary(c){const tp=typeOf(c);return `<b>${c.name}</b><br>Дети 0–14 лет: ${kids(c).toFixed(1)}% · пожилые 65+: ${olds(c).toFixed(1)}%<br>Условный тип: <b>${tp[0]}</b> — ${tp[1]}.<br>${kids(c)>=35?'Широкое основание пирамиды':kids(c)>=18?'Основание средней ширины':'Сравнительно узкое основание'} помогает это увидеть.`;}
+function renderCompare(){
+  const ia=+selectA.value,ib=+selectB.value,a=COUNTRIES[ia],b=COUNTRIES[ib];
+  showPyr('compare-pyr-a',a,{title:a.name});showPyr('compare-pyr-b',b,{title:b.name});
+  $('compare-info-a').innerHTML=profileSummary(a);$('compare-info-b').innerHTML=profileSummary(b);
+  const childDiff=kids(a)-kids(b),oldDiff=olds(a)-olds(b);
+  const moreKids=childDiff>0?a:b,moreOld=oldDiff>0?a:b;
+  $('compare-summary').innerHTML=a===b?`Выбрана одна и та же страна. Выберите разные страны, чтобы сравнить возрастную структуру.`:`<b>Что заметно при сравнении:</b> в модели ${moreKids.name} доля детей больше на ${Math.abs(childDiff).toFixed(1)} п. п.; в модели ${moreOld.name} доля пожилых больше на ${Math.abs(oldDiff).toFixed(1)} п. п. Сравнивайте ширину основания и верхушки, а не только общий силуэт.`;
+}
+selectA.onchange=renderCompare;selectB.onchange=renderCompare;renderCompare();
+
+/* tabs */
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+function activate(btn){tabs.forEach(b=>{const s=b===btn;b.setAttribute('aria-selected',s);b.tabIndex=s?0:-1;$(b.getAttribute('aria-controls')).hidden=!s;});}
+tabs.forEach((b,i)=>{b.onclick=()=>activate(b);b.onkeydown=e=>{let n;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;if(n!==undefined){e.preventDefault();activate(tabs[n]);tabs[n].focus();}};});
+</script></body></html>
