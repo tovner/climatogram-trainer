@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Теория и тренажёр к заданию 1 ОГЭ по географии."><title>Задание 1 ОГЭ · География.Яма</title><style>
+:root{--ink:#142a3d;--muted:#52677b;--blue:#165fc7;--deep:#102b44;--sky:#d7eaff;--line:#d5e1ec;--bg:#eef5fb;--good:#14704d;--bad:#9d342c}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(135deg,#f8fbff,var(--bg));color:var(--ink);font:16px/1.55 Arial,sans-serif}a{color:inherit;text-decoration:none}.page{max-width:1180px;margin:28px auto 64px;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 55px rgba(24,62,96,.12)}.top{min-height:68px;padding:0 30px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:900;font-size:20px}.brand span{color:var(--blue)}.back{font-size:14px;font-weight:800}.back:hover{color:var(--blue)}.hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(110deg,var(--deep),#164f78);color:#fff;padding:52px 38px}.hero:after{content:'';position:absolute;width:260px;height:260px;right:-30px;top:-155px;border:32px solid #73b8ff;border-radius:50%;opacity:.85;z-index:-1}.eyebrow{color:#b9dafa;text-transform:uppercase;letter-spacing:.14em;font-size:13px;font-weight:900}.hero h1{font-size:clamp(40px,7vw,68px);letter-spacing:-.045em;line-height:1;margin:12px 0}.hero p{max-width:800px;margin:0;color:#cfe5fb;font-size:19px;font-weight:700}.content{padding:28px 38px 50px}.jump{display:flex;gap:10px;flex-wrap:wrap}.jump a{padding:8px 14px;border-radius:99px;background:#edf5ff;color:var(--blue);font-weight:800}h2{font-size:30px;margin:42px 0 18px;letter-spacing:-.025em}.intro{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.mini,.theory-card,.trainer{border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 6px 20px rgba(24,62,96,.06)}.mini{padding:18px}.mini b{display:block;color:var(--blue);font-size:28px}.mini p{margin:5px 0 0;color:var(--muted)}.algorithm{padding:18px 20px;border-left:5px solid var(--blue);border-radius:10px;background:#edf5ff}.algorithm ol{margin:8px 0 0;padding-left:22px}.theory{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.theory-card{padding:20px}.theory-card h3{margin:0 0 8px;font-size:20px}.theory-card p{margin:8px 0;color:var(--muted)}.fact-list{margin:10px 0 0;padding-left:20px}.fact-list li{margin:4px 0}.tag{display:inline-block;padding:4px 9px;border-radius:8px;background:var(--sky);color:var(--blue);font-size:12px;font-weight:900}.memory{margin-top:12px;padding:10px 12px;border-radius:9px;background:#fff4d8}.trainer{padding:28px}.head{display:flex;justify-content:space-between;gap:16px}.progress{color:var(--blue);font-weight:900;white-space:nowrap}.bar{height:8px;margin:15px 0 24px;background:#e8eef6;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:var(--blue);transition:.25s}.question{font-size:22px;font-weight:900;margin:15px 0 18px}.options{display:grid;gap:10px}.option{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;border:2px solid #d6e0ea;border-radius:12px;background:#fff;color:var(--ink);padding:13px 15px;font:inherit;font-weight:700;cursor:pointer}.option:hover:not(:disabled){border-color:#73a9e2;background:#f7fbff}.option:disabled{cursor:default}.option.correct{border-color:#59a986;background:#e7f5ed}.option.wrong{border-color:#db867e;background:#fdebe8}.letter{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:8px;background:#edf5ff;color:var(--blue);font-weight:900}.feedback{display:none;margin-top:16px;padding:14px;border-radius:10px}.feedback.show{display:block}.feedback.ok{background:#e7f5ed;color:var(--good)}.feedback.bad{background:#fdebe8;color:var(--bad)}.actions{display:flex;justify-content:flex-end;margin-top:16px}.btn{border:0;border-radius:10px;background:var(--blue);color:#fff;padding:12px 18px;font:inherit;font-weight:900;cursor:pointer}.hidden{display:none!important}.result{text-align:center}.score{font-size:58px;color:var(--blue);font-weight:900}.result p{color:var(--muted)}.footer{padding-top:40px;color:var(--muted);font-size:13px}@media(max-width:700px){.page{margin:0;border:0;border-radius:0}.top{padding:0 18px}.hero{padding:38px 20px}.hero:after{right:-175px}.content{padding:22px 14px 38px}.intro,.theory{grid-template-columns:1fr}.trainer{padding:18px}.question{font-size:20px}.option{padding:12px}.head{align-items:flex-start}}
+.diagram-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.diagram-card{display:flex;flex-direction:column;align-items:stretch;padding:26px;border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 6px 20px rgba(24,62,96,.06)}.pie{width:190px;aspect-ratio:1;margin:20px auto 8px;border-radius:50%;position:relative;box-shadow:inset 0 0 0 1px rgba(20,42,61,.08)}.pie:after{content:'';position:absolute;inset:29%;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--line)}.air-pie{background:conic-gradient(#165fc7 0 78%,#73b8ff 78% 99%,#d9e2eb 99% 100%)}.water-pie{background:conic-gradient(#165fc7 0 3%,#9ccfff 3% 100%)}.water-store-pie{background:conic-gradient(#165fc7 0 96.5%,#8fd3ff 96.5% 98.24%,#4f97d1 98.24% 99.93%,#f3c557 99.93% 100%)}.diagram-card h3{font-size:24px;line-height:1.2;margin:9px 0 8px}.diagram-card p{margin:0 0 16px;color:var(--muted)}.legend{display:grid;gap:8px;margin:4px 0}.legend div{display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;background:#f5f9fd}.swatch{width:14px;height:14px;border-radius:4px}.legend strong{font-size:18px;white-space:nowrap}.diagram-card .memory{margin-top:16px}.diagram-tabs{position:relative;isolation:isolate;display:flex;gap:7px;margin:12px 0 18px;padding:4px;border-radius:12px;background:#edf3f9}.diagram-tabs::before{content:'';position:absolute;z-index:-1;top:4px;left:4px;width:calc((100% - 15px)/2);height:calc(100% - 8px);border-radius:9px;background:#fff;box-shadow:0 3px 12px rgba(24,62,96,.14);transition:transform .48s cubic-bezier(.2,.8,.2,1)}.diagram-tabs[data-view="storage"]::before{transform:translateX(calc(100% + 7px))}.diagram-tab{flex:1;border:0;border-radius:9px;background:transparent;color:var(--muted);padding:9px 10px;font:inherit;font-size:14px;font-weight:900;cursor:pointer;transition:color .3s ease}.diagram-tab.active{color:var(--blue)}.diagram-tab:focus:not(:focus-visible){outline:0}.diagram-tab:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}.water-stage{position:relative;transition:height .56s cubic-bezier(.2,.8,.2,1)}.water-stage .diagram-panel{display:block;position:absolute;inset:0 0 auto;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(20px) scale(.985);transition:opacity .34s ease,transform .54s cubic-bezier(.2,.8,.2,1),visibility 0s linear .54s}.water-stage .diagram-panel.active{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1);transition:opacity .42s ease .08s,transform .54s cubic-bezier(.2,.8,.2,1),visibility 0s}.water-stage .pie{transform:rotate(-18deg) scale(.9);opacity:.35;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .5s ease}.water-stage .diagram-panel.active .pie{transform:rotate(0) scale(1);opacity:1}.legend.compact div{padding:6px 9px}.legend.compact strong{font-size:15px}.tiny-note{font-size:13px}@media(max-width:900px){.diagram-grid{grid-template-columns:1fr}.diagram-card{padding:20px}.pie{width:170px}}@media(max-width:700px){.diagram-tabs{flex-direction:column}.diagram-tabs::before{width:calc(100% - 8px);height:calc((100% - 15px)/2)}.diagram-tabs[data-view="storage"]::before{transform:translateY(calc(100% + 7px))}}@media(prefers-reduced-motion:reduce){.diagram-tabs::before,.diagram-tab,.water-stage,.water-stage .diagram-panel,.water-stage .pie{transition:none!important}}
+.water-visual{width:100%;max-width:600px;height:280px;margin:18px auto 0;transition:height .65s cubic-bezier(.2,.8,.2,1)}.water-visual[data-view="storage"]{height:310px}.water-visual[data-layout="narrow"]{height:245px}.water-visual[data-layout="narrow"][data-view="storage"]{height:475px}.water-visual svg{display:block;width:100%;height:100%;overflow:hidden}.water-visual .zoom-lines{fill:none;stroke:#91b6df;stroke-width:2;stroke-linecap:round}.water-visual .zoom-frame{fill:#f7fbff;stroke:#a9c9e9;stroke-width:2}.water-visual text{font-family:Arial,sans-serif;fill:var(--ink)}.water-visual .zoom-title{font-size:14px;font-weight:800;fill:var(--blue)}.water-visual .zoom-label{font-size:15px;font-weight:800}.water-visual .zoom-trace{font-size:11px;font-weight:800}.water-visual .zoom{pointer-events:none}@media(prefers-reduced-motion:reduce){.water-visual{transition:none}}
+</style></head><body><main class="page"><header class="top"><a class="brand" href="index.html">География<span>.Яма</span></a><a class="back" href="oge.html">← Раздел ОГЭ</a></header><section class="hero"><div class="eyebrow">Теория и тренажёр</div><h1>Задание 1 ОГЭ</h1><p>Географические объекты и факты. Научись узнавать правильный ответ по ключевым словам, карте и системе опорных знаний.</p></section><div class="content"><nav class="jump"><a href="#theory">Теория</a><a href="#trainer">Тренажёр</a></nav>
+<section id="theory"><h2>Как устроено задание</h2><div class="intro"><div class="mini"><b>1</b><p>правильный ответ из четырёх вариантов</p></div><div class="mini"><b>≈ 2 мин</b><p>разумное время на выполнение</p></div><div class="mini"><b>Карта + знания</b><p>главные инструменты решения</p></div></div><p class="algorithm"><b>Алгоритм.</b><br>1. Определи тему вопроса по ключевым словам.<br>2. Сначала попробуй назвать ответ без вариантов.<br>3. Исключи явно неверные варианты.<br>4. Найди объект на соответствующей карте атласа.<br>5. Проверь, что ответ соответствует точной формулировке: «самый высокий», «наименьшая численность», «тёплое течение» и т. п.</p>
+<h2>Опорные знания</h2><div class="theory">
+<article class="theory-card"><span class="tag">Карта мира</span><h3>Материки и объекты</h3><ul class="fact-list"><li><b>Евразия:</b> Меконг, Иравади, Волга, Байкал, Гималаи, Тибетское нагорье.</li><li><b>Северная Америка:</b> Колорадо, Великие озёра, Ниагарский водопад.</li><li><b>Южная Америка:</b> Амазонка, Амазонская низменность, Анды, водопад Анхель.</li><li><b>Австралия:</b> единственный материк без действующих вулканов.</li></ul><p class="memory"><b>Запомни цепочки:</b> Эри + Мичиган → Великие озёра → Северная Америка. Амазонка + Анхель + Анды → Южная Америка.</p></article>
+<article class="theory-card"><span class="tag">Рекорды</span><h3>Географические «самые»</h3><ul class="fact-list"><li>Самый большой остров — <b>Гренландия</b>, автономная территория Дании.</li><li>Самое глубокое озеро — <b>Байкал</b>.</li><li>Самый высокий водопад — <b>Анхель</b>.</li><li>Самая большая низменность — <b>Амазонская</b>.</li><li>Самые протяжённые горы — <b>Анды</b>.</li><li>Самая длинная река Европы — <b>Волга</b>.</li></ul></article>
+<article class="theory-card"><span class="tag">Литосфера</span><h3>Вулканы, породы и эры</h3><p><b>Магматические:</b> гранит, базальт, пемза. <b>Осадочные:</b> песчаник, известняк, торф, уголь, каменная соль. <b>Метаморфические:</b> мрамор, кварцит.</p><p>Эры от древней к молодой: <b>архей → протерозой → палеозой → мезозой → кайнозой</b>.</p><p>Высочайший действующий вулкан Евразии — <b>Ключевская Сопка</b>. Исландия расположена на границе литосферных плит и известна действующими вулканами.</p></article>
+<article class="theory-card"><span class="tag">Гидросфера</span><h3>Моря, воды и течения</h3><ul class="fact-list"><li>Пресной воды около <b>3 %</b> общего объёма гидросферы.</li><li>Высокая солёность Красного моря связана с жарким сухим климатом, сильным испарением и отсутствием крупных рек.</li><li><b>Гольфстрим</b> — тёплое течение; <b>Перуанское, Бенгельское, Калифорнийское</b> — холодные.</li><li>Окраинное море из типичных вариантов — <b>Аравийское</b>.</li><li>Крупнейшее и глубочайшее море у берегов России — <b>Берингово</b>.</li></ul></article>
+<article class="theory-card"><span class="tag">Атмосфера и природа</span><h3>Воздух, зоны и животные</h3><p>Воздух состоит примерно из <b>78 % азота</b> и <b>21 % кислорода</b>. Нормальное давление на уровне моря — <b>760 мм рт. ст.</b></p><p>Наибольшее видовое разнообразие характерно для <b>влажных экваториальных лесов</b>. Калимантан лежит в экваториальном поясе.</p><p><b>Африка:</b> зебра, гепард. <b>Австралия:</b> коала, ехидна. <b>Северная Америка:</b> бизон, скунс. <b>Южная Америка:</b> муравьед.</p></article>
+<article class="theory-card"><span class="tag">Население и страны</span><h3>Страны, столицы, народы</h3><p>Среди крупнейших стран по численности населения — <b>Индия, Китай, США, Индонезия</b>. Из распространённых вариантов наименьшую численность имеет Австралия.</p><p><b>Столицы:</b> Вашингтон — США, Лиссабон — Португалия, Мехико — Мексика, Лондон — Великобритания.</p><p>Россия находится в двух частях света — Европе и Азии. Среди перечисляемых народов России наиболее многочисленны <b>татары</b>; коренной народ Европейского Севера — <b>коми</b>.</p></article>
+<article class="theory-card"><span class="tag">Открытия</span><h3>Путешественники</h3><ul class="fact-list"><li><b>Фернан Магеллан</b> — руководитель первой кругосветной экспедиции.</li><li><b>Джеймс Кук</b> — исследовал и нанёс на карту восточное побережье Австралии.</li><li><b>Абель Тасман</b> — исследовал Новую Зеландию и районы у Австралии.</li><li><b>Дмитрий и Харитон Лаптевы</b> — море Лаптевых.</li><li><b>Михаил Лазарев</b> — море Лазарева у Антарктиды.</li><li><b>Джордж Ванкувер</b> — остров Ванкувер.</li></ul></article>
+<article class="theory-card"><span class="tag">Россия и хозяйство</span><h3>Факты, которые часто проверяют</h3><p>Россия особенно богата запасами <b>природного газа</b>. Море Лаптевых относится к Северному Ледовитому океану. Байкал — мировой рекордсмен по глубине.</p><p>Рис — основная продовольственная культура многих стран Южной, Юго-Восточной и Восточной Азии; в типовых вопросах правильным ответом является <b>Китай</b>.</p><p class="memory"><b>Совет:</b> факты, которые меняются со временем (например, численность населения), учи по актуальному атласу и данным, выданным учителем.</p></article>
+</div>
+<h2>Атмосфера и гидросфера в цифрах</h2><div class="diagram-grid">
+<article class="diagram-card"><div><span class="tag">Атмосфера</span><h3>Состав воздуха</h3><p>Почти весь объём воздуха приходится на два газа. В задании спрашивают, какого газа больше всего.</p><div class="legend"><div><span class="swatch" style="background:#165fc7"></span><span>Азот</span><strong>78 %</strong></div><div><span class="swatch" style="background:#73b8ff"></span><span>Кислород</span><strong>21 %</strong></div><div><span class="swatch" style="background:#d9e2eb"></span><span>Другие газы</span><strong>≈ 1 %</strong></div></div><p class="memory"><b>Опора:</b> азота почти в четыре раза больше, чем кислорода.</p></div><div class="pie air-pie" role="img" aria-label="Круговая диаграмма состава воздуха: 78 процентов азота, 21 процент кислорода, около 1 процента других газов"></div></article>
+<article class="diagram-card" id="waterCard"><div><span class="tag">Гидросфера</span><h3>Вода на Земле</h3><div class="diagram-tabs" role="tablist" aria-label="Диаграммы гидросферы"><button class="diagram-tab active" type="button" data-water-tab="share">Солёная и пресная</button><button class="diagram-tab" type="button" data-water-tab="storage">Где находится вода</button></div><div class="diagram-panel active" data-water-panel="share"><p>Основная часть воды Земли сосредоточена в океанах и является солёной. Пресной воды очень мало.</p><div class="legend"><div><span class="swatch" style="background:#165fc7"></span><span>Пресная вода</span><strong>≈ 3 %</strong></div><div><span class="swatch" style="background:#9ccfff"></span><span>Солёная вода</span><strong>≈ 97 %</strong></div></div><p class="memory"><b>Опора:</b> в вопросе о доле пресных вод выбирай значение около 3 %.</p><div class="pie water-pie" role="img" aria-label="Круговая диаграмма вод гидросферы: около 3 процентов пресной воды и 97 процентов солёной воды"></div></div><div class="diagram-panel" data-water-panel="storage"><p>Распределение всей воды гидросферы. Доли рек, озёр и атмосферы настолько малы, что на общей диаграмме выглядят тонкой линией.</p><div class="legend compact"><div><span class="swatch" style="background:#165fc7"></span><span>Мировой океан</span><strong>≈ 96,5 %</strong></div><div><span class="swatch" style="background:#8fd3ff"></span><span>Ледники и постоянные снега</span><strong>≈ 1,74 %</strong></div><div><span class="swatch" style="background:#4f97d1"></span><span>Подземные воды</span><strong>≈ 1,69 %</strong></div><div><span class="swatch" style="background:#f3c557"></span><span>Озёра</span><strong>≈ 0,013 %</strong></div><div><span class="swatch" style="background:#ef9e4d"></span><span>Вода в атмосфере</span><strong>≈ 0,001 %</strong></div><div><span class="swatch" style="background:#d96666"></span><span>Реки</span><strong>≈ 0,0002 %</strong></div></div><p class="memory tiny-note"><b>Важно:</b> это доли от всей воды Земли, а не только от запасов пресной воды.</p><div class="pie water-store-pie" role="img" aria-label="Круговая диаграмма распределения всей воды Земли: 96,5 процента в Мировом океане, около 1,74 процента в ледниках, около 1,69 процента в подземных водах, малые доли в озёрах, атмосфере и реках"></div></div></div></article>
+</div></section>
+<section id="trainer"><h2>Тренажёр</h2><div class="trainer"><div id="quiz"><div class="head"><div><span class="tag" id="topic"></span><div class="question" id="question"></div></div><div class="progress" id="progress"></div></div><div class="bar"><span id="bar"></span></div><div class="options" id="options"></div><div class="feedback" id="feedback"></div><div class="actions"><button class="btn hidden" id="next">Следующий вопрос</button></div></div><div class="result hidden" id="result"><div class="score" id="score"></div><h3 id="resultTitle"></h3><p id="resultText"></p><button class="btn" id="restart">Новый вариант</button></div></div></section><footer class="footer">Материал составлен по подборкам заданий типа 1 ОГЭ по географии. В тренажёре формируется новый вариант из 15 вопросов.</footer></div></main>
+<script>
+const bank=[
+['Карта мира','На каком материке протекают реки Меконг и Иравади?',['Южная Америка','Евразия','Австралия','Африка'],1,'Обе реки находятся в Юго-Восточной Азии, а Азия — часть Евразии.'],
+['Карта мира','На каком материке находятся озёра Эри и Мичиган?',['Австралия','Северная Америка','Африка','Южная Америка'],1,'Эри и Мичиган входят в систему Великих озёр Северной Америки.'],
+['Карта мира','На каком материке протекает река Колорадо?',['Африка','Северная Америка','Австралия','Южная Америка'],1,'Колорадо течёт на юго-западе Северной Америки.'],
+['Карта мира','На каком материке находится самый высокий водопад мира?',['Евразия','Южная Америка','Африка','Северная Америка'],1,'Водопад Анхель находится в Венесуэле, в Южной Америке.'],
+['Рекорды','Как называется самое глубокое озеро мира?',['Виктория','Байкал','Верхнее','Танганьика'],1,'Байкал — самое глубокое озеро мира; оно находится в России.'],
+['Рекорды','Какая горная система наиболее протяжённая?',['Гималаи','Кавказ','Анды','Карпаты'],2,'Анды тянутся вдоль западного побережья Южной Америки.'],
+['Рекорды','Какой остров является крупнейшим на Земле?',['Мадагаскар','Гренландия','Новая Гвинея','Калимантан'],1,'Крупнейший остров — Гренландия. Австралия считается материком.'],
+['Страны','Частью территории какого государства является Гренландия?',['США','Россия','Дания','Канада'],2,'Гренландия — автономная территория в составе Королевства Дания.'],
+['Литосфера','Какая горная порода является магматической?',['Торф','Базальт','Известняк','Мрамор'],1,'Базальт образуется при застывании излившейся магмы.'],
+['Литосфера','Какая горная порода является осадочной?',['Каменная соль','Гранит','Кварцит','Мрамор'],0,'Каменная соль — осадочная химическая порода.'],
+['Литосфера','Какая эра является самой древней?',['Кайнозойская','Мезозойская','Архейская','Палеозойская'],2,'Архей — самая древняя из перечисленных геологических эр.'],
+['Литосфера','На каком материке нет действующих вулканов?',['Южная Америка','Австралия','Антарктида','Северная Америка'],1,'Австралия расположена внутри древней литосферной плиты, вдали от её активных границ.'],
+['Литосфера','Какой действующий вулкан Евразии самый высокий?',['Этна','Везувий','Фудзияма','Ключевская Сопка'],3,'Ключевская Сопка выше остальных перечисленных вулканов.'],
+['Гидросфера','Какое океаническое течение является тёплым?',['Бенгельское','Гольфстрим','Перуанское','Калифорнийское'],1,'Гольфстрим переносит тёплые воды из тропической Атлантики на северо-восток.'],
+['Гидросфера','Какое океаническое течение является холодным?',['Перуанское','Гольфстрим','Бразильское','Гвинейское'],0,'Перуанское течение проходит вдоль западного побережья Южной Америки и является холодным.'],
+['Гидросфера','В каком море солёность поверхностных вод наибольшая?',['Красное','Чёрное','Средиземное','Карибское'],0,'Красное море лежит в жарком сухом климате, имеет сильное испарение и почти не получает речной воды.'],
+['Гидросфера','Какое море является окраинным?',['Средиземное','Балтийское','Чёрное','Аравийское'],3,'Аравийское море широко сообщается с Индийским океаном и слабо отделено от него.'],
+['Гидросфера','Какова примерная доля пресных вод в гидросфере?',['3 %','12 %','24 %','48 %'],0,'Пресная вода составляет около 3 % общего объёма гидросферы.'],
+['Атмосфера','Какой газ составляет наибольшую долю воздуха?',['Азот','Водород','Кислород','Углекислый газ'],0,'В воздухе около 78 % азота и 21 % кислорода.'],
+['Атмосфера','Чему равно нормальное атмосферное давление на уровне моря?',['740 мм рт. ст.','750 мм рт. ст.','760 мм рт. ст.','770 мм рт. ст.'],2,'Нормальное давление на уровне моря — 760 мм рт. ст.'],
+['Природные зоны','Где видовое разнообразие растений и животных наибольшее?',['Во влажных экваториальных лесах','В тайге','В степях','В тундре'],0,'Постоянное тепло и обилие влаги создают условия для максимального биоразнообразия.'],
+['Животный мир','Какое животное в природе обитает в Африке?',['Ехидна','Гепард','Скунс','Муравьед'],1,'Гепард — представитель фауны Африки; другие варианты относятся к иным материкам.'],
+['Животный мир','Представителем какого материка является коала?',['Австралия','Евразия','Африка','Южная Америка'],0,'Коала — эндемик Австралии.'],
+['Животный мир','Представителем какого материка является бизон?',['Северная Америка','Австралия','Африка','Южная Америка'],0,'Бизон — характерный представитель фауны Северной Америки.'],
+['Население','Какой народ из перечисленных наиболее многочислен в России?',['Якуты','Татары','Коми','Калмыки'],1,'Татары — второй по численности народ России после русских.'],
+['Население','Какой народ относится к коренным народам Европейского Севера России?',['Коми','Башкиры','Чуваши','Удмурты'],0,'Коми исторически проживают на Европейском Севере России.'],
+['Столицы','Какой город является столицей государства?',['Нью-Йорк','Монреаль','Сидней','Вашингтон'],3,'Вашингтон — столица США.'],
+['Столицы','Какой город является столицей государства?',['Шанхай','Милан','Лиссабон','Марсель'],2,'Лиссабон — столица Португалии.'],
+['Столицы','Какой город является столицей государства?',['Александрия','Шанхай','Одесса','Мехико'],3,'Мехико — столица Мексики.'],
+['Путешественники','Кто руководил первой кругосветной экспедицией?',['Христофор Колумб','Фернан Магеллан','Васко да Гама','Джеймс Кук'],1,'Экспедиция Магеллана 1519–1522 годов первой совершила кругосветное плавание.'],
+['Путешественники','Что сделал Джеймс Кук?',['Первым достиг Индии','Совершил первое кругосветное путешествие','Нанёс на карту восточное побережье Австралии','Открыл Америку'],2,'Кук исследовал и нанёс на карту восточное побережье Австралии.'],
+['Путешественники','Какой объект назван в честь братьев Лаптевых?',['Полуостров','Остров','Море','Хребет'],2,'Именем Дмитрия и Харитона Лаптевых названо море Северного Ледовитого океана.'],
+['Путешественники','Какой объект в Антарктике носит имя М. П. Лазарева?',['Течение','Пролив','Море','Полуостров'],2,'У берегов Антарктиды находится море Лазарева.'],
+['Россия','Какой мировой рекордный объект находится в России?',['Самая длинная река','Самое глубокое озеро','Самая высокая вершина','Самый высокий водопад'],1,'В России находится Байкал — самое глубокое озеро мира.'],
+['Россия','Какими запасами особенно богата Россия?',['Нефти','Природного газа','Медных руд','Алюминиевых руд'],1,'В учебных заданиях подчёркиваются крупнейшие запасы природного газа России.'],
+['Сельское хозяйство','В какой стране из перечисленных рис является основной продовольственной культурой?',['Канада','США','Китай','Россия'],2,'Рис — важнейшая продовольственная культура Китая и многих стран Азии.']
+];
+const $=id=>document.getElementById(id),letters=['А','Б','В','Г'];let tasks=[],index=0,correct=0,locked=false;function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1])}function build(){tasks=shuffle(bank).slice(0,15);index=correct=0;$('quiz').classList.remove('hidden');$('result').classList.add('hidden');show()}function show(){locked=false;let q=tasks[index];$('topic').textContent=q[0];$('question').textContent=q[1];$('progress').textContent=`${index+1} / ${tasks.length}`;$('bar').style.width=`${index/tasks.length*100}%`;$('feedback').className='feedback';$('next').classList.add('hidden');$('options').innerHTML='';q[2].forEach((text,i)=>{let b=document.createElement('button');b.className='option';b.innerHTML=`<span class="letter">${letters[i]}</span><span>${text}</span>`;b.onclick=()=>answer(i,b);$('options').appendChild(b)})}function answer(choice,button){if(locked)return;locked=true;let q=tasks[index],ok=choice===q[3];if(ok)correct++;let buttons=[...$('options').children];buttons.forEach((b,i)=>{b.disabled=true;if(i===q[3])b.classList.add('correct')});if(!ok)button.classList.add('wrong');$('feedback').className=`feedback show ${ok?'ok':'bad'}`;$('feedback').innerHTML=`<b>${ok?'Верно!':'Неверно. Правильный ответ: '+q[2][q[3]]}</b><br>${q[4]}`;$('next').classList.remove('hidden');$('bar').style.width=`${(index+1)/tasks.length*100}%`}function next(){if(index<tasks.length-1){index++;show()}else finish()}function finish(){$('quiz').classList.add('hidden');$('result').classList.remove('hidden');$('score').textContent=`${correct} / ${tasks.length}`;let p=correct/tasks.length;$('resultTitle').textContent=p>=.87?'Отлично!':p>=.67?'Хороший результат':'Теорию стоит повторить';$('resultText').textContent=p>=.87?'Ты уверенно узнаёшь географические объекты и факты.':p>=.67?'База уже есть. Повтори темы, где были ошибки, и попробуй новый вариант.':'Вернись к опорным знаниям, составь свои пары-ассоциации и пройди тренажёр снова.'}document.querySelectorAll('[data-water-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-water-tab]').forEach(x=>x.classList.toggle('active',x===button));document.querySelectorAll('[data-water-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.waterPanel===button.dataset.waterTab))});$('next').onclick=next;$('restart').onclick=build;build();
+</script><script>
+(()=>{
+  const card=document.getElementById('waterCard');
+  const tabs=[...card.querySelectorAll('[data-water-tab]')];
+  const panels=[...card.querySelectorAll('[data-water-panel]')];
+  const stage=document.createElement('div');
+  stage.className='water-stage';
+  panels[0].before(stage);
+  panels.forEach(panel=>stage.append(panel));
+  panels.forEach(panel=>panel.querySelector('.pie').remove());
+  const visual=document.createElement('div');
+  visual.className='water-visual';
+  visual.dataset.view='share';
+  visual.setAttribute('role','img');
+  visual.setAttribute('aria-label','Круговая диаграмма: пресная вода — около 3 %, солёная — около 97 %.');
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('aria-hidden','true');
+  const slices=Array.from({length:7},()=>{
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('stroke','#fff');
+    path.setAttribute('stroke-width','1');
+    svg.append(path);
+    return path;
+  });
+  const zoom=document.createElementNS('http://www.w3.org/2000/svg','g');
+  zoom.setAttribute('class','zoom');
+  svg.append(zoom);
+  visual.append(svg);
+  stage.after(visual);
+  const tabBar=card.querySelector('.diagram-tabs');
+  const selectedPanel=()=>panels.find(panel=>panel.classList.contains('active'));
+  const fitHeight=()=>{stage.style.height=selectedPanel().scrollHeight+'px'};
+  const first=[3,97,0,0,0,0,0];
+  const second=[1.74,1.69,.013,.001,.0002,.0558,96.5];
+  const firstColors=['#165fc7','#9ccfff','#f3c557','#ef9e4d','#d96666','#d9e2eb','#165fc7'];
+  const secondColors=['#8fd3ff','#4f97d1','#f3c557','#ef9e4d','#d96666','#d9e2eb','#165fc7'];
+  const hexParts=color=>[1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
+  const mixColor=(from,to,amount)=>{
+    const a=hexParts(from),b=hexParts(to);
+    return '#'+a.map((value,i)=>Math.round(value+(b[i]-value)*amount).toString(16).padStart(2,'0')).join('');
+  };
+  const point=(cx,cy,r,degrees)=>{
+    const angle=degrees*Math.PI/180;
+    return [cx+r*Math.cos(angle),cy+r*Math.sin(angle)];
+  };
+  const arc=(cx,cy,outer,inner,start,end)=>{
+    if(end-start<.00001)return '';
+    const a=point(cx,cy,outer,start),b=point(cx,cy,outer,end);
+    const c=point(cx,cy,inner,end),d=point(cx,cy,inner,start);
+    const large=end-start>180?1:0;
+    return `M${a[0]} ${a[1]} A${outer} ${outer} 0 ${large} 1 ${b[0]} ${b[1]} L${c[0]} ${c[1]} A${inner} ${inner} 0 ${large} 0 ${d[0]} ${d[1]} Z`;
+  };
+  let current=0,animation=0,isMobile=false;
+  const draw=progress=>{
+    const cx=isMobile?180:300-135*progress;
+    const cy=isMobile?118:150;
+    const outer=isMobile?100:108,inner=isMobile?54:58;
+    let angle=isMobile?82:-30;
+    slices.forEach((path,i)=>{
+      const share=first[i]+(second[i]-first[i])*progress;
+      const end=angle+share*3.6;
+      path.setAttribute('d',arc(cx,cy,outer,inner,angle,end));
+      path.setAttribute('fill',mixColor(firstColors[i],secondColors[i],progress));
+      angle=end;
+    });
+    zoom.style.opacity=String(progress);
+    zoom.setAttribute('transform',`translate(0 ${Math.round((1-progress)*12)})`);
+  };
+  const setLayout=()=>{
+    isMobile=visual.clientWidth<480;
+    visual.dataset.layout=isMobile?'narrow':'wide';
+    svg.setAttribute('viewBox',isMobile?'0 0 360 480':'0 0 600 310');
+    const centerX=isMobile?180:165,centerY=isMobile?118:150,radius=isMobile?100:108;
+    const startAngle=isMobile?82:-30,endAngle=startAngle+3.5*3.6;
+    const edgeA=point(centerX,centerY,radius,startAngle).map(n=>n.toFixed(1));
+    const edgeB=point(centerX,centerY,radius,endAngle).map(n=>n.toFixed(1));
+    const guides=isMobile
+      ?`M${edgeA.join(' ')} L308 278 M${edgeB.join(' ')} L52 278`
+      :`M${edgeA.join(' ')} L340 91 M${edgeB.join(' ')} L340 235`;
+    zoom.innerHTML=isMobile?`
+      <path class="zoom-lines" d="${guides}"/>
+      <rect class="zoom-frame" x="36" y="278" width="288" height="184" rx="16"/>
+      <text class="zoom-title" x="52" y="306">УВЕЛИЧЕНО: 3,5 % ВОДЫ</text>
+      <rect x="52" y="322" width="256" height="60" rx="8" fill="#8fd3ff"/>
+      <rect x="52" y="382" width="256" height="60" fill="#4f97d1"/>
+      <rect x="52" y="442" width="256" height="4" rx="2" fill="#f3c557"/>
+      <text class="zoom-label" x="65" y="358">Ледники — 1,74 %</text>
+      <text class="zoom-label" x="65" y="418" style="fill:#fff">Подземные — 1,69 %</text>
+      <text class="zoom-trace" x="52" y="459">Озёра, атмосфера, реки и прочие запасы</text>`:`
+      <path class="zoom-lines" d="${guides}"/>
+      <rect class="zoom-frame" x="340" y="56" width="225" height="204" rx="16"/>
+      <text class="zoom-title" x="355" y="82">УВЕЛИЧЕНО: 3,5 % ВОДЫ</text>
+      <rect x="355" y="98" width="195" height="64" rx="8" fill="#8fd3ff"/>
+      <rect x="355" y="162" width="195" height="64" fill="#4f97d1"/>
+      <rect x="355" y="226" width="195" height="4" rx="2" fill="#f3c557"/>
+      <text class="zoom-label" x="367" y="136">Ледники — 1,74 %</text>
+      <text class="zoom-label" x="367" y="200" style="fill:#fff">Подземные — 1,69 %</text>
+      <text class="zoom-trace" x="355" y="249">Озёра, атмосфера, реки и прочие</text>`;
+    draw(current);
+  };
+  const morph=target=>{
+    cancelAnimationFrame(animation);
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){current=target;draw(current);return}
+    const from=current,start=performance.now(),duration=720;
+    const frame=now=>{
+      const time=Math.min(1,(now-start)/duration);
+      const ease=time<.5?4*time*time*time:1-Math.pow(-2*time+2,3)/2;
+      current=from+(target-from)*ease;
+      draw(current);
+      if(time<1)animation=requestAnimationFrame(frame);
+    };
+    animation=requestAnimationFrame(frame);
+  };
+  tabs.forEach((tab,index)=>{
+    const panel=panels[index];
+    tab.id='water-tab-'+tab.dataset.waterTab;
+    tab.setAttribute('role','tab');
+    tab.setAttribute('aria-controls','water-panel-'+tab.dataset.waterTab);
+    panel.id='water-panel-'+tab.dataset.waterTab;
+    panel.setAttribute('role','tabpanel');
+    panel.setAttribute('aria-labelledby',tab.id);
+    tab.onclick=()=>{
+      if(tab.classList.contains('active'))return;
+      tabs.forEach(button=>{
+        const active=button===tab;
+        button.classList.toggle('active',active);
+        button.setAttribute('aria-selected',String(active));
+      });
+      panels.forEach(view=>{
+        const active=view===panel;
+        view.classList.toggle('active',active);
+        view.setAttribute('aria-hidden',String(!active));
+        view.inert=!active;
+      });
+      tabBar.dataset.view=tab.dataset.waterTab;
+      visual.dataset.view=tab.dataset.waterTab;
+      visual.setAttribute('aria-label',tab.dataset.waterTab==='storage'?'Круговая диаграмма распределения воды Земли. Малый сектор соединён с увеличенной выноской: ледники, подземные воды и другие небольшие запасы.':'Круговая диаграмма: пресная вода — около 3 %, солёная — около 97 %.');
+      fitHeight();
+      morph(tab.dataset.waterTab==='storage'?1:0);
+    };
+    tab.setAttribute('aria-selected',String(tab.classList.contains('active')));
+    panel.setAttribute('aria-hidden',String(!panel.classList.contains('active')));
+    panel.inert=!panel.classList.contains('active');
+  });
+  tabBar.dataset.view='share';
+  panels.forEach(panel=>new ResizeObserver(()=>{if(panel.classList.contains('active'))fitHeight()}).observe(panel));
+  window.addEventListener('resize',()=>{fitHeight();setLayout()});
+  setLayout();
+  requestAnimationFrame(fitHeight);
+})();
+</script></body></html>
